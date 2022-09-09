@@ -36,7 +36,6 @@ public class CLI {
 
         do {
             printCRMOptions();
-            int id;
             String[] userInput = scanner.nextLine().trim().toLowerCase().split("[ -]");
             try {
                 switch (userInput[0]) {
@@ -46,7 +45,7 @@ public class CLI {
                             break;
                         }
                     case "lookup":
-                        id = Integer.parseInt(userInput[userInput.length - 1]);
+                        int id = Integer.parseInt(userInput[userInput.length - 1]);
                         if (userInput[1].equals("lead")) {
                             printItem(() -> this.crm.getLead(id));
                             break;
@@ -93,8 +92,7 @@ public class CLI {
                         printer.println("Could not understand your input, please try again using " + colourString(Colours.CYAN, "leads") + ", " + colourString(Colours.CYAN, "contacts") + ", " + colourString(Colours.CYAN, "accounts") + " or " + colourString(Colours.CYAN, "opportunities") + ".");
                         break;
                     case "convert":
-                        id = Integer.parseInt(userInput[userInput.length - 1]);
-                        convertLead(id);
+                        convertLead(Integer.parseInt(userInput[userInput.length - 1]));
                         break;
                     case "closed":
                         closeOpportunity(userInput);
