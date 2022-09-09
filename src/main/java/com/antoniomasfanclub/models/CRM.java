@@ -13,11 +13,19 @@ public class CRM {
     public CRM() {
         this.leads = new HashMap<>();
         this.contacts = new HashMap<>();
-        this.opportunities = new HashMap<>();
         this.accounts = new HashMap<>();
+        this.salesReps = new HashMap<>();
+        this.opportunities = new HashMap<>();
     }
 
-    public void addLead(Lead lead) {
+    public void addLead(Lead lead, int salesRepId) {
+        if (lead == null)
+            throw new IllegalArgumentException("No valid lead was passed");
+        SalesRep salesRep = this.salesReps.get(salesRepId);
+        if (salesRep == null)
+            throw new IllegalArgumentException("No sales rep could be found in the CRM with ID " + salesRepId);
+        salesRep.addLead(lead);
+        lead.setSalesRep(salesRep);
         leads.put(lead.getId(), lead);
     }
 
@@ -27,7 +35,9 @@ public class CRM {
     }
 
     public void deleteLead(int id) {
-        if (leads.get(id) == null) throw new IllegalArgumentException("No leads found with ID " + id);
+        Lead lead = leads.get(id);
+        if (lead == null) throw new IllegalArgumentException("No leads found with ID " + id);
+        lead.getSalesRep().deleteLead(id);
         leads.remove(id);
     }
 
@@ -45,7 +55,14 @@ public class CRM {
         contacts.remove(id);
     }
 
-    public void addOpportunity(Opportunity opportunity) {
+    public void addOpportunity(Opportunity opportunity, int salesRepId) {
+        if (opportunity == null)
+            throw new IllegalArgumentException("No valid opportunity was passed");
+        SalesRep salesRep = this.salesReps.get(salesRepId);
+        if (salesRep == null)
+            throw new IllegalArgumentException("No sales rep could be found in the CRM with ID " + salesRepId);
+        salesRep.addOpportunity(opportunity);
+        opportunity.setSalesRep(salesRep);
         opportunities.put(opportunity.getId(), opportunity);
     }
 
@@ -55,7 +72,9 @@ public class CRM {
     }
 
     public void deleteOpportunity(int id) {
-        if (opportunities.get(id) == null) throw new IllegalArgumentException("No opportunities found with ID " + id);
+        Opportunity opportunity = this.opportunities.get(id);
+        if (this.opportunities.get(id) == null) throw new IllegalArgumentException("No opportunities found with ID " + id);
+        opportunity.getSalesRep().deleteOpportunity(id);
         opportunities.remove(id);
     }
 
@@ -77,6 +96,14 @@ public class CRM {
         for (Integer id : leads.keySet()) {
             System.out.println("ID: " + id + " Name: " + leads.get(id));
         }
+    }
+
+    public Map<Integer, SalesRep> getSalesReps() {
+        return salesReps;
+    }
+
+    public void setSalesReps(Map<Integer, SalesRep> salesReps) {
+        this.salesReps = salesReps;
     }
 
     public void addSalesRep(SalesRep salesRep) {

@@ -80,6 +80,7 @@ public class Opportunity {
     }
 
     public void setSalesRep(SalesRep salesRep) {
+        if (salesRep == null) throw new IllegalArgumentException("No valid sales rep selected");
         this.salesRep = salesRep;
     }
 
@@ -98,7 +99,8 @@ public class Opportunity {
 
     @Override
     public String toString() {
-        return CLI.colourString(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId() +" ") + " #️⃣ " + this.getQuantity() + " 🚛 " + product +
-                " 👤" + contact.getName() + " from " + contact.getCompanyName() + "; 🚦 status: " + status;
+        return CLI.colourString(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId() + " ") + " #️⃣ " + this.getQuantity() + " 🚛 " + product +
+                " 👤" + contact.getName() + " from " + contact.getCompanyName() + "; 🚦 status: " + status + " " +
+                CLI.colourString(Colours.BACKGROUND_PURPLE, " 💼 ") + " 🆔 " + this.getId() + " " + this.salesRep.getName();
     }
 }

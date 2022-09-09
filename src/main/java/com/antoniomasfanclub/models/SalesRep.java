@@ -2,6 +2,7 @@ package com.antoniomasfanclub.models;
 
 import com.antoniomasfanclub.models.enums.Colours;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class SalesRep {
@@ -9,8 +10,16 @@ public class SalesRep {
     private String name;
     private Map<Integer, Lead> leads;
     private Map<Integer, Opportunity> opportunities;
+    private static int generatedSalesReps = 0;
 
     public SalesRep() {
+    }
+
+    public SalesRep(String name) {
+        this.id = generateId();
+        this.name = name;
+        this.leads = new HashMap<>();
+        this.opportunities = new HashMap<>();
     }
 
     public int getId() {
@@ -48,6 +57,7 @@ public class SalesRep {
     }
 
     public void addOpportunity(Opportunity opportunity) {
+        if (opportunity == null) throw new IllegalArgumentException("No valid opportunity selected");
         opportunities.put(opportunity.getId(), opportunity);
     }
 
@@ -57,24 +67,61 @@ public class SalesRep {
     }
 
     public void deleteOpportunity(int id) {
-        if (opportunities.get(id) == null) throw new IllegalArgumentException("No opportunities found with ID " + id);
         Opportunity opportunity = opportunities.get(id);
-        opportunity.getSalesRep().deleteOpportunity(id);
+        if (opportunity == null) throw new IllegalArgumentException("No opportunities found with ID " + id);
         opportunities.remove(id);
     }
+
     public void addLead(Lead lead) {
+        if (lead == null) throw new IllegalArgumentException("No valid lead selected");
         leads.put(lead.getId(), lead);
     }
 
     public Lead getLead(int id) {
-        if (leads.get(id) == null) throw new IllegalArgumentException("No leads found with ID " + id);
         Lead lead = leads.get(id);
-        lead.getSalesRep().deleteOpportunity(id);
+        if (lead == null) throw new IllegalArgumentException("No leads found with ID " + id);
         return leads.get(id);
     }
 
     public void deleteLead(int id) {
         if (leads.get(id) == null) throw new IllegalArgumentException("No leads found with ID " + id);
         leads.remove(id);
+    }
+
+    public static int getGeneratedSalesReps() {
+        return generatedSalesReps;
+    }
+
+
+    private static int generateId() {
+        return ++generatedSalesReps;
+    }
+
+    public String getSalesRepDetails() {
+        String string = this.toString() + "\n";
+        if (leads.isEmpty()) {
+            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no leads");
+        } else {
+            string += CLI.colourString(Colours.YELLOW, " Leads:\n");
+            for (Lead lead : leads.values()) {
+                string += "    " + lead + "\n";
+            }
+        }
+
+        if (opportunities.isEmpty()) {
+            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no opportunities");
+        } else {
+            string += CLI.colourString(Colours.YELLOW, " Opportunities:\n");
+            for (Opportunity opportunity : opportunities.values()) {
+                string += "    " + opportunity + "\n";
+            }
+        }
+
+        return string;
+    }
+
+    @Override
+    public String toString() {
+        return CLI.colourString(Colours.BACKGROUND_PURPLE, " 💼 ") + CLI.colourString(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId() + " ") + " " + this.getName();
     }
 }

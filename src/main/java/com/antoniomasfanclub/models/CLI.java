@@ -61,6 +61,10 @@ public class CLI {
                             printItem(() -> this.crm.getAccount(Integer.parseInt(userInput[2])));
                             break;
                         }
+                        if (userInput[1].equals("salesrep")) {
+                            printItem(() -> this.crm.getSalesRep(Integer.parseInt(userInput[2])).getSalesRepDetails());
+                            break;
+                        }
                         printer.println("Could not understand your input, please try again using " + colourString(Colours.CYAN, "lead") + ", " + colourString(Colours.CYAN, "contact") + ", " + colourString(Colours.CYAN, "account") + " or " + colourString(Colours.CYAN, "opportunity") + " followed by the id");
                         break;
                     case "list":
@@ -78,6 +82,10 @@ public class CLI {
                         }
                         if (userInput[1].equals("accounts")) {
                             printList(this.crm.getAccounts());
+                            break;
+                        }
+                        if (userInput[1].equals("salesreps")) {
+                            printList(this.crm.getSalesReps());
                             break;
                         }
                         printer.println("Could not understand your input, please try again using " + colourString(Colours.CYAN, "leads") + ", " + colourString(Colours.CYAN, "contacts") + ", " + colourString(Colours.CYAN, "accounts") + " or " + colourString(Colours.CYAN, "opportunities") + ".");
@@ -107,7 +115,7 @@ public class CLI {
     private void printCRMOptions() {
         printer.println();
         printer.println("- To create a new lead, type '" + colourString(Colours.GREEN, Command.NEW_LEAD.toString()) + "' ");
-        printer.println("- To see a specific lead, contact, account or opportunity, type '" + colourString(Colours.GREEN, Command.LOOKUP.toString()) + "' or the equivalent, followed by the "+colourString(Colours.GREEN, "item id"));
+        printer.println("- To see a specific lead, contact, account or opportunity, type '" + colourString(Colours.GREEN, Command.LOOKUP.toString()) + "' or the equivalent, followed by the " + colourString(Colours.GREEN, "item id"));
         printer.println("- To see all current leads, contacts, accounts or opportunities, type '" + colourString(Colours.GREEN, Command.LIST_LEADS.toString()) + "' or the equivalent");
         printer.println("- To convert a lead into an opportunity type '" + colourString(Colours.GREEN, Command.CONVERT.toString()) + "' followed by the " + colourString(Colours.GREEN, "lead id"));
         printer.println("- To close an opportunity, type '" + colourString(Colours.RED, Command.CLOSED_LOST.toString()) + "' or '" + colourString(Colours.GREEN, Command.CLOSED_WON.toString()) + "' followed by the " + colourString(Colours.GREEN, "opportunity id"));
@@ -123,8 +131,11 @@ public class CLI {
         updateStringKey("Please introduce this lead's " + colourString(Colours.CYAN, "🏢 company name") + ":", lead::setCompanyName);
         updateStringKey("Please introduce this lead's " + colourString(Colours.CYAN, "☎️ phone number") + ":", lead::setPhoneNumber);
         updateStringKey("Please introduce this lead's " + colourString(Colours.CYAN, "✉️ email") + ":", lead::setEmail);
+        updateIntegerKeyFromMap("Please introduce this lead's " + colourString(Colours.CYAN, "💼 sales rep") + ":",
+                this.crm.salesReps, (Integer salesRepId) -> lead.setSalesRep(this.crm.getSalesRep(salesRepId)));
 
-        this.crm.addLead(lead);
+
+        this.crm.addLead(lead, lead.getSalesRep().getId());
         printer.println(colourString(Colours.GREEN, "Success!") + " Lead with ID " + colourString(Colours.CYAN, lead.getId() + "") + " was added to the leads list.");
     }
 
@@ -148,7 +159,7 @@ public class CLI {
             this.crm.deleteLead(Integer.parseInt(key));
             this.crm.addAccount(account);
             this.crm.addContact(contact);
-            this.crm.addOpportunity(opportunity);
+            this.crm.addOpportunity(opportunity, lead.getSalesRep().getId());
 
             printer.println("Completed lead conversion to opportunity\n");
         } catch (IllegalArgumentException e) {
@@ -290,6 +301,23 @@ public class CLI {
     }
 
     /**
+     * Enables a simple way to update Object keys from the console printing a map as an options list.
+     *
+     * @param message      The message shown in the console before running the update method
+     * @param map          A map with Integer keys for the element you want to select
+     * @param updateMethod A consumer, ideally a class setter, that accepts an Integer param.
+     */
+    private <T> void updateIntegerKeyFromMap(String message, Map<Integer, T> map, Consumer<Integer> updateMethod) {
+        StringBuilder fullMessage = new StringBuilder(message + "\n");
+        if (map.isEmpty()) {
+            printer.println("There are " + colourString(Colours.YELLOW, "no valid values") + " for this position. We shall leave it " + colourString(Colours.YELLOW, "empty") + " for now.");
+        } else {
+            for (T value : map.values()) fullMessage.append(value.toString()).append("\n");
+            this.updateIntegerKey(fullMessage.toString(), updateMethod);
+        }
+    }
+
+    /**
      * This method takes an enum key and a class instance's property's getter and setter to provide a standarised way to update
      * enum based class properties.
      *
@@ -333,15 +361,27 @@ public class CLI {
      * Populate the CRM with dummy data so lists are not empty at app startup.
      */
     private void populateCRM() {
+        SalesRep salesRep1 = new SalesRep("Pepe García");
+        SalesRep salesRep2 = new SalesRep("María Barranco");
+
+        this.crm.addSalesRep(salesRep1);
+        this.crm.addSalesRep(salesRep2);
+
         Contact contact1 = new Contact(new Lead("Esteban Coestáocupado", "687493822", "esteban@email.com", "BBVA"));
         Contact contact2 = new Contact(new Lead("Federico Trillo", "675392876", "fede@email.com", "Construcciones Trillo S.L."));
 
-        this.crm.addLead(new Lead("Benito Pérez", "636227551", "beni@email.com", "MediaMarkt"));
-        this.crm.addLead(new Lead("Coronel Tapioca", "636726671", "tapi@email.com", "Inditex"));
-        this.crm.addLead(new Lead("Juan Benigómez", "637538792", "per@email.com", "Keychron"));
+        this.crm.addLead(new Lead("Benito Pérez", "636227551", "beni@email.com", "MediaMarkt"), salesRep1.getId());
+        this.crm.addLead(new Lead("Coronel Tapioca", "636726671", "tapi@email.com", "Inditex"), salesRep1.getId());
+        this.crm.addLead(new Lead("Juan Benigómez", "637538792", "per@email.com", "Keychron"), salesRep2.getId());
 
-        this.crm.addOpportunity(new Opportunity(3, Product.FLATBED, Status.OPEN, contact1));
-        this.crm.addOpportunity(new Opportunity(5, Product.HYBRID, Status.CLOSED_WON, contact2));
+        Opportunity opportunity1 = new Opportunity(3, Product.FLATBED, Status.OPEN, contact1);
+        Opportunity opportunity2 = new Opportunity(5, Product.HYBRID, Status.CLOSED_WON, contact2);
+
+        salesRep1.addOpportunity(opportunity1);
+        salesRep2.addOpportunity(opportunity2);
+
+        this.crm.addOpportunity(opportunity1, salesRep1.getId());
+        this.crm.addOpportunity(opportunity2, salesRep2.getId());
 
         this.crm.addContact(contact1);
         this.crm.addContact(contact2);
