@@ -33,6 +33,6 @@ public class Lead extends Person {
 
     @Override
     public String toString() {
-        return super.toString() + " " + CLI.colourString(Colours.BACKGROUND_PURPLE, " 💼 ") + " 🆔 " + this.getId() + " " + this.salesRep.getName();
+        return super.toString() + " " +this.getSalesRep();
     }
 }

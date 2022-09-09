@@ -36,6 +36,7 @@ public class CLI {
 
         do {
             printCRMOptions();
+            int id;
             String[] userInput = scanner.nextLine().trim().toLowerCase().split("[ -]");
             try {
                 switch (userInput[0]) {
@@ -45,24 +46,25 @@ public class CLI {
                             break;
                         }
                     case "lookup":
+                        id = Integer.parseInt(userInput[userInput.length - 1]);
                         if (userInput[1].equals("lead")) {
-                            printItem(() -> this.crm.getLead(Integer.parseInt(userInput[2])));
+                            printItem(() -> this.crm.getLead(id));
                             break;
                         }
                         if (userInput[1].equals("opportunity")) {
-                            printItem(() -> this.crm.getOpportunity(Integer.parseInt(userInput[2])));
+                            printItem(() -> this.crm.getOpportunity(id));
                             break;
                         }
                         if (userInput[1].equals("contact")) {
-                            printItem(() -> this.crm.getContact(Integer.parseInt(userInput[2])));
+                            printItem(() -> this.crm.getContact(id));
                             break;
                         }
                         if (userInput[1].equals("account")) {
-                            printItem(() -> this.crm.getAccount(Integer.parseInt(userInput[2])));
+                            printItem(() -> this.crm.getAccount(id));
                             break;
                         }
-                        if (userInput[1].equals("salesrep")) {
-                            printItem(() -> this.crm.getSalesRep(Integer.parseInt(userInput[2])).getSalesRepDetails());
+                        if (userInput[1].equals("sales") || userInput[1].equals("salesrep")) {
+                            printItem(() -> this.crm.getSalesRep(id).getSalesRepDetails());
                             break;
                         }
                         printer.println("Could not understand your input, please try again using " + colourString(Colours.CYAN, "lead") + ", " + colourString(Colours.CYAN, "contact") + ", " + colourString(Colours.CYAN, "account") + " or " + colourString(Colours.CYAN, "opportunity") + " followed by the id");
@@ -84,14 +86,15 @@ public class CLI {
                             printList(this.crm.getAccounts());
                             break;
                         }
-                        if (userInput[1].equals("salesreps")) {
+                        if (userInput[1].equals("sales") || userInput[1].equals("salesreps")) {
                             printList(this.crm.getSalesReps());
                             break;
                         }
                         printer.println("Could not understand your input, please try again using " + colourString(Colours.CYAN, "leads") + ", " + colourString(Colours.CYAN, "contacts") + ", " + colourString(Colours.CYAN, "accounts") + " or " + colourString(Colours.CYAN, "opportunities") + ".");
                         break;
                     case "convert":
-                        convertLead(userInput[1]);
+                        id = Integer.parseInt(userInput[userInput.length - 1]);
+                        convertLead(id);
                         break;
                     case "closed":
                         closeOpportunity(userInput);
@@ -104,6 +107,7 @@ public class CLI {
                 }
             } catch (Exception e) {
                 printer.println("Your command seems to be unrecognisable or incomplete. Please try again.");
+                printer.println("If you are trying to enter an ID, make sure it's an " + colourString(Colours.YELLOW, "integer") + " and that you include it " + colourString(Colours.YELLOW, "at the end") + " of your command");
             }
         } while (run);
         printer.println("Quitting the CRM. " + colourString(Colours.YELLOW, "Have a great day!"));
@@ -115,8 +119,8 @@ public class CLI {
     private void printCRMOptions() {
         printer.println();
         printer.println("- To create a new lead, type '" + colourString(Colours.GREEN, Command.NEW_LEAD.toString()) + "' ");
-        printer.println("- To see a specific lead, contact, account or opportunity, type '" + colourString(Colours.GREEN, Command.LOOKUP.toString()) + "' or the equivalent, followed by the " + colourString(Colours.GREEN, "item id"));
-        printer.println("- To see all current leads, contacts, accounts or opportunities, type '" + colourString(Colours.GREEN, Command.LIST_LEADS.toString()) + "' or the equivalent");
+        printer.println("- To see a specific lead, salesrep, contact, account or opportunity, type '" + colourString(Colours.GREEN, Command.LOOKUP.toString()) + "' or the equivalent, followed by the " + colourString(Colours.GREEN, "item id"));
+        printer.println("- To see all current leads, salesreps, contacts, accounts or opportunities, type '" + colourString(Colours.GREEN, Command.LIST_LEADS.toString()) + "' or the equivalent");
         printer.println("- To convert a lead into an opportunity type '" + colourString(Colours.GREEN, Command.CONVERT.toString()) + "' followed by the " + colourString(Colours.GREEN, "lead id"));
         printer.println("- To close an opportunity, type '" + colourString(Colours.RED, Command.CLOSED_LOST.toString()) + "' or '" + colourString(Colours.GREEN, Command.CLOSED_WON.toString()) + "' followed by the " + colourString(Colours.GREEN, "opportunity id"));
         printer.println("- To quit the CRM, type '" + colourString(Colours.RED, Command.QUIT.toString()) + "' ");
@@ -144,9 +148,9 @@ public class CLI {
      *
      * @param key the ID of the lead instance to convert into an opportunity
      */
-    private void convertLead(String key) {
+    private void convertLead(int key) {
         try {
-            Lead lead = this.crm.getLead(Integer.parseInt(key));
+            Lead lead = this.crm.getLead(key);
             Contact contact = new Contact(lead);
             printer.println("Converting the following lead: " + lead);
 
@@ -156,14 +160,14 @@ public class CLI {
             Account account = createAccount(contact, opportunity);
             printer.println("\nAccount created: " + account + "\n");
 
-            this.crm.deleteLead(Integer.parseInt(key));
+            this.crm.deleteLead(key);
             this.crm.addAccount(account);
             this.crm.addContact(contact);
             this.crm.addOpportunity(opportunity, lead.getSalesRep().getId());
 
             printer.println("Completed lead conversion to opportunity\n");
         } catch (IllegalArgumentException e) {
-            printer.println(colourString(Colours.RED, "Error") + " - " + e.getMessage() + "\n");
+            printError(e);
         }
     }
 
@@ -220,7 +224,7 @@ public class CLI {
                 printer.println("Opportunities must be marked as " + colourString(Colours.RED, "lost") + " or " + colourString(Colours.GREEN, "won") + " when closing.");
             }
         } catch (IllegalArgumentException e) {
-            printer.println(e.getMessage());
+            printError(e);
         }
     }
 
@@ -246,7 +250,7 @@ public class CLI {
         try {
             printer.println(itemGetter.call());
         } catch (Exception e) {
-            printer.println(e.getMessage() + "\n");
+            printError(e);
         }
     }
 
@@ -264,7 +268,7 @@ public class CLI {
                 updateMethod.run();
                 wasUpdatedSuccessfully = true;
             } catch (IllegalArgumentException e) {
-                printer.println(e.getMessage());
+                printError(e);
             }
         } while (!wasUpdatedSuccessfully);
     }
@@ -355,6 +359,10 @@ public class CLI {
      */
     protected static String colourString(Colours colour, String string) {
         return colour + string + Colours.RESET;
+    }
+
+    private void printError(Exception e) {
+        printer.println(colourString(Colours.RED, "Error") + " " + e.getMessage() + "\n");
     }
 
     /**

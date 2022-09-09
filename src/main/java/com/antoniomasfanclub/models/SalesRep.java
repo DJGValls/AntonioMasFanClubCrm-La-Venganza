@@ -99,6 +99,7 @@ public class SalesRep {
 
     public String getSalesRepDetails() {
         String string = this.toString() + "\n";
+
         if (leads.isEmpty()) {
             string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no leads");
         } else {
