@@ -66,7 +66,7 @@ public class CLI {
                             printItem(() -> this.crm.getSalesRep(id).getSalesRepDetails());
                             break;
                         }
-                        printer.println("Could not understand your input, please try again using " + colourString(Colours.CYAN, "lead") + ", " + colourString(Colours.CYAN, "contact") + ", " + colourString(Colours.CYAN, "account") + " or " + colourString(Colours.CYAN, "opportunity") + " followed by the id");
+                        printer.println("Could not understand your input, please try again using " + colourString(Colours.CYAN, "lead") + ", " + colourString(Colours.CYAN, "contact") + ", " + colourString(Colours.CYAN, "account") + " , " + colourString(Colours.CYAN, "opportunity") + " or " + colourString(Colours.CYAN, "sales rep") + " followed by the id");
                         break;
                     case "list":
                         if (userInput[1].equals("leads")) {
@@ -89,7 +89,7 @@ public class CLI {
                             printList(this.crm.getSalesReps());
                             break;
                         }
-                        printer.println("Could not understand your input, please try again using " + colourString(Colours.CYAN, "leads") + ", " + colourString(Colours.CYAN, "contacts") + ", " + colourString(Colours.CYAN, "accounts") + " or " + colourString(Colours.CYAN, "opportunities") + ".");
+                        printer.println("Could not understand your input, please try again using " + colourString(Colours.CYAN, "leads") + ", " + colourString(Colours.CYAN, "contacts") + ", " + colourString(Colours.CYAN, "accounts") + ", " + colourString(Colours.CYAN, "opportunities") + " or " + colourString(Colours.CYAN, "sales reps") + ".");
                         break;
                     case "convert":
                         convertLead(Integer.parseInt(userInput[userInput.length - 1]));
@@ -117,8 +117,8 @@ public class CLI {
     private void printCRMOptions() {
         printer.println();
         printer.println("- To create a new lead, type '" + colourString(Colours.GREEN, Command.NEW_LEAD.toString()) + "' ");
-        printer.println("- To see a specific lead, salesrep, contact, account or opportunity, type '" + colourString(Colours.GREEN, Command.LOOKUP.toString()) + "' or the equivalent, followed by the " + colourString(Colours.GREEN, "item id"));
-        printer.println("- To see all current leads, salesreps, contacts, accounts or opportunities, type '" + colourString(Colours.GREEN, Command.LIST_LEADS.toString()) + "' or the equivalent");
+        printer.println("- To see a specific lead, sales rep, contact, account or opportunity, type '" + colourString(Colours.GREEN, Command.LOOKUP.toString()) + "' or the equivalent, followed by the " + colourString(Colours.GREEN, "item id"));
+        printer.println("- To see all current leads, sales reps, contacts, accounts or opportunities, type '" + colourString(Colours.GREEN, Command.LIST_LEADS.toString()) + "' or the equivalent");
         printer.println("- To convert a lead into an opportunity type '" + colourString(Colours.GREEN, Command.CONVERT.toString()) + "' followed by the " + colourString(Colours.GREEN, "lead id"));
         printer.println("- To close an opportunity, type '" + colourString(Colours.RED, Command.CLOSED_LOST.toString()) + "' or '" + colourString(Colours.GREEN, Command.CLOSED_WON.toString()) + "' followed by the " + colourString(Colours.GREEN, "opportunity id"));
         printer.println("- To quit the CRM, type '" + colourString(Colours.RED, Command.QUIT.toString()) + "' ");
@@ -244,7 +244,7 @@ public class CLI {
      *
      * @param itemGetter getter for the object instance you want to print
      */
-    private void printItem(Callable itemGetter) {
+    private void printItem(Callable<?> itemGetter) {
         try {
             printer.println(itemGetter.call());
         } catch (Exception e) {
@@ -285,7 +285,7 @@ public class CLI {
      * Enables a simple way to update Integer-based class instance properties from the console.
      *
      * @param message      The message shown in the console before running the update method
-     * @param updateMethod A consumer, ideally a class setter, that accepts a n Integer param.
+     * @param updateMethod A consumer, ideally a class setter, that accepts an Integer param.
      */
     private void updateIntegerKey(String message, Consumer<Integer> updateMethod) {
         updateGenericKey(message, () -> {
