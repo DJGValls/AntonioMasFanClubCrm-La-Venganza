@@ -2,31 +2,37 @@ package com.antoniomasfanclub.models;
 
 import com.antoniomasfanclub.models.enums.Colours;
 
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
-
+@Entity
+@Table(name = "SalesRep")
 public class SalesRep {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
+    @OneToMany
     private Map<Integer, Lead> leads;
+    @OneToMany
     private Map<Integer, Opportunity> opportunities;
-    private static int generatedSalesReps = 0;
+    //private static int generatedSalesReps = 0;
 
     public SalesRep() {
     }
 
     public SalesRep(String name) {
-        this.id = generateId();
+        //this.id = generateId();
         this.name = name;
         this.leads = new HashMap<>();
         this.opportunities = new HashMap<>();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -88,38 +94,38 @@ public class SalesRep {
         leads.remove(id);
     }
 
-    public static int getGeneratedSalesReps() {
-        return generatedSalesReps;
-    }
-
-
-    private static int generateId() {
-        return ++generatedSalesReps;
-    }
-
-    public String getSalesRepDetails() {
-        String string = this.toString() + "\n";
-
-        if (leads.isEmpty()) {
-            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no leads");
-        } else {
-            string += CLI.colourString(Colours.YELLOW, " Leads:\n");
-            for (Lead lead : leads.values()) {
-                string += "    " + lead + "\n";
-            }
-        }
-
-        if (opportunities.isEmpty()) {
-            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no opportunities");
-        } else {
-            string += CLI.colourString(Colours.YELLOW, " Opportunities:\n");
-            for (Opportunity opportunity : opportunities.values()) {
-                string += "    " + opportunity + "\n";
-            }
-        }
-
-        return string;
-    }
+//    public static int getGeneratedSalesReps() {
+//        return generatedSalesReps;
+//    }
+//
+//
+//    private static int generateId() {
+//        return ++generatedSalesReps;
+//    }
+//
+//    public String getSalesRepDetails() {
+//        String string = this.toString() + "\n";
+//
+//        if (leads.isEmpty()) {
+//            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no leads");
+//        } else {
+//            string += CLI.colourString(Colours.YELLOW, " Leads:\n");
+//            for (Lead lead : leads.values()) {
+//                string += "    " + lead + "\n";
+//            }
+//        }
+//
+//        if (opportunities.isEmpty()) {
+//            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no opportunities");
+//        } else {
+//            string += CLI.colourString(Colours.YELLOW, " Opportunities:\n");
+//            for (Opportunity opportunity : opportunities.values()) {
+//                string += "    " + opportunity + "\n";
+//            }
+//        }
+//
+//        return string;
+//    }
 
     @Override
     public String toString() {
