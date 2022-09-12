@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="antonioMasFanClubCrm" />
         <module name="FanClubCRM" />
+        <module name="AntonioMasFanClubCrm-La-Venganza" />
       </profile>
     </annotationProcessing>
   </component>

@@ -3,10 +3,12 @@ package com.antoniomasfanclub.models;
 import com.antoniomasfanclub.models.enums.Colours;
 import com.antoniomasfanclub.models.enums.Industry;
 
+import javax.persistence.Id;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Account {
+    @Id
     private final int id;
     private int employeeCount;
     private Industry industry;
