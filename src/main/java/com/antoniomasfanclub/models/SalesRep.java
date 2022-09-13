@@ -12,9 +12,9 @@ public class SalesRep {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy = "leadId")
     private Map<Integer, Lead> leads;
-    @OneToMany
+    @OneToMany(mappedBy = "opportunityId")
     private Map<Integer, Opportunity> opportunities;
     //private static int generatedSalesReps = 0;
 
