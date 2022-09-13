@@ -46,9 +46,9 @@ public class Opportunity {
 
     public void setProduct(Product product) {
         if (product == null) throw new IllegalArgumentException("Product can only be "
-                + CLI.colourString(Colours.YELLOW, Product.BOX.name()) + ","
-                + CLI.colourString(Colours.GREEN, Product.FLATBED.name()) + ","
-                + " or " + CLI.colourString(Colours.CYAN, Product.HYBRID.name()) + ".");
+                + CLI.colour(Colours.YELLOW, Product.BOX.name()) + ","
+                + CLI.colour(Colours.GREEN, Product.FLATBED.name()) + ","
+                + " or " + CLI.colour(Colours.CYAN, Product.HYBRID.name()) + ".");
 
         this.product = product;
     }
@@ -59,9 +59,9 @@ public class Opportunity {
 
     public void setStatus(Status status) {
         if (status == null) throw new IllegalArgumentException("Status can only be "
-                + CLI.colourString(Colours.YELLOW, Status.OPEN.name()) + ","
-                + CLI.colourString(Colours.GREEN, Status.CLOSED_WON.name()) + ","
-                + " or " + CLI.colourString(Colours.RED, Status.CLOSED_LOST.name()) + ".");
+                + CLI.colour(Colours.YELLOW, Status.OPEN.name()) + ","
+                + CLI.colour(Colours.GREEN, Status.CLOSED_WON.name()) + ","
+                + " or " + CLI.colour(Colours.RED, Status.CLOSED_LOST.name()) + ".");
         this.status = status;
     }
 
@@ -99,7 +99,7 @@ public class Opportunity {
 
     @Override
     public String toString() {
-        return CLI.colourString(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId() + " ") + " #️⃣ " + this.getQuantity() + " 🚛 " + product +
+        return CLI.colour(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId() + " ") + " #️⃣ " + this.getQuantity() + " 🚛 " + product +
                 " 👤" + contact.getName() + " from " + contact.getCompanyName() + "; 🚦 status: " + status + " " + this.getSalesRep();
     }
 }

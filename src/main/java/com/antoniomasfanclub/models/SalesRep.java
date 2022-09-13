@@ -32,7 +32,7 @@ public class SalesRep {
 
     public String getName() {
         if (name == null || name.trim().length() < 3)
-            throw new IllegalArgumentException("Names should be at least " + CLI.colourString(Colours.YELLOW, "3 characters") + " long ");
+            throw new IllegalArgumentException("Names should be at least " + CLI.colour(Colours.YELLOW, "3 characters") + " long ");
         return name;
     }
 
@@ -97,32 +97,32 @@ public class SalesRep {
         return ++generatedSalesReps;
     }
 
-    public String getSalesRepDetails() {
-        String string = this.toString() + "\n";
+    public String getFullDetails() {
+        StringBuilder string = new StringBuilder(this + "\n");
 
         if (leads.isEmpty()) {
-            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no leads");
+            string.append("This sales rep has ").append(CLI.colour(Colours.YELLOW, "no leads"));
         } else {
-            string += CLI.colourString(Colours.YELLOW, " Leads:\n");
+            string.append(CLI.colour(Colours.YELLOW, " Leads:\n"));
             for (Lead lead : leads.values()) {
-                string += "    " + lead + "\n";
+                string.append("    ").append(lead).append("\n");
             }
         }
 
         if (opportunities.isEmpty()) {
-            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no opportunities");
+            string.append("This sales rep has ").append(CLI.colour(Colours.YELLOW, "no opportunities"));
         } else {
-            string += CLI.colourString(Colours.YELLOW, " Opportunities:\n");
+            string.append(CLI.colour(Colours.YELLOW, " Opportunities:\n"));
             for (Opportunity opportunity : opportunities.values()) {
-                string += "    " + opportunity + "\n";
+                string.append("    ").append(opportunity).append("\n");
             }
         }
 
-        return string;
+        return string.toString();
     }
 
     @Override
     public String toString() {
-        return CLI.colourString(Colours.BACKGROUND_PURPLE, " 💼 ") + CLI.colourString(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId() + " ") + " " + this.getName();
+        return CLI.colour(Colours.BACKGROUND_PURPLE, " 💼 ") + CLI.colour(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId() + " ") + " " + this.getName();
     }
 }
