@@ -103,29 +103,29 @@ public class SalesRep {
 //        return ++generatedSalesReps;
 //    }
 //
-//    public String getSalesRepDetails() {
-//        String string = this.toString() + "\n";
-//
-//        if (leads.isEmpty()) {
-//            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no leads");
-//        } else {
-//            string += CLI.colourString(Colours.YELLOW, " Leads:\n");
-//            for (Lead lead : leads.values()) {
-//                string += "    " + lead + "\n";
-//            }
-//        }
-//
-//        if (opportunities.isEmpty()) {
-//            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no opportunities");
-//        } else {
-//            string += CLI.colourString(Colours.YELLOW, " Opportunities:\n");
-//            for (Opportunity opportunity : opportunities.values()) {
-//                string += "    " + opportunity + "\n";
-//            }
-//        }
-//
-//        return string;
-//    }
+    public String getSalesRepDetails() {
+        String string = this.toString() + "\n";
+
+        if (leads.isEmpty()) {
+            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no leads");
+        } else {
+            string += CLI.colourString(Colours.YELLOW, " Leads:\n");
+            for (Lead lead : leads.values()) {
+                string += "    " + lead + "\n";
+            }
+        }
+
+        if (opportunities.isEmpty()) {
+            string += "This sales rep has " + CLI.colourString(Colours.YELLOW, "no opportunities");
+        } else {
+            string += CLI.colourString(Colours.YELLOW, " Opportunities:\n");
+            for (Opportunity opportunity : opportunities.values()) {
+                string += "    " + opportunity + "\n";
+            }
+        }
+
+        return string;
+    }
 
     @Override
     public String toString() {
