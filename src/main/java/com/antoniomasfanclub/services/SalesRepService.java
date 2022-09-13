@@ -12,6 +12,6 @@ import java.util.List;
 public interface SalesRepService {
 
     List<SalesRep> findAll();
-    SalesRep createSalesRep(SalesRep salesRep);
+    SalesRep createSalesRep(String name);
 
 }

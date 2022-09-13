@@ -1,6 +1,5 @@
 package com.antoniomasfanclub.services;
 
-import com.antoniomasfanclub.models.Opportunity;
 import com.antoniomasfanclub.models.SalesRep;
 import com.antoniomasfanclub.repositories.SalesRepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,9 @@ public class SalesRepServiceImpl implements SalesRepService{
     }
 
     @Override
-    public SalesRep createSalesRep(SalesRep salesRep) {
-        return salesRepRepository.save(salesRep);
+    public SalesRep createSalesRep(String name) {
+        SalesRep newSalesRep = new SalesRep(name);
+        return salesRepRepository.save(newSalesRep);
     }
 
 }
