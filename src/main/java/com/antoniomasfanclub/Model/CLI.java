@@ -1,6 +1,6 @@
-package com.antoniomasfanclub.models;
+package com.antoniomasfanclub.Model;
 
-import com.antoniomasfanclub.models.enums.*;
+import com.antoniomasfanclub.Model.enums.*;
 
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class CLI {
+
     private final CRM crm;
     private final Scanner scanner;
     /**
@@ -30,7 +31,7 @@ public class CLI {
      * The core method of the CRM, and the only public one. Creates an infinite loop that translates user input into
      * actions, and only ends when instructed to by the user,
      */
-    public void startCRM() {
+   public void startCRM() {
         printer.println(Colours.BACKGROUND_YELLOW + "@@@@@@@@@@@@ Welcome to the " + Colours.RED + "🍆Antonio Mas👼🏻 Fan Club CRM®️" + Colours.BLACK + "! @@@@@@@@@@@@" + Colours.RESET);
         boolean run = true;
 
@@ -111,6 +112,8 @@ public class CLI {
         printer.println("Quitting the CRM. " + colourString(Colours.YELLOW, "Have a great day!"));
     }
 
+
+
     /**
      * To avoid clogging the previous method, the options menu is extracted to an independent method.
      */
@@ -141,6 +144,8 @@ public class CLI {
         printer.println(colourString(Colours.GREEN, "Success!") + " Lead with ID " + colourString(Colours.CYAN, lead.getId() + "") + " was added to the leads list.");
     }
 
+
+
     /**
      * Converts an existing lead into an opportunity, generating a new account and contact in the process.
      *
@@ -168,6 +173,8 @@ public class CLI {
             printError(e);
         }
     }
+
+
 
     /**
      * Creates a new Opportunity instance associated with a Contact instance.
@@ -395,4 +402,9 @@ public class CLI {
         this.crm.addAccount(new Account(Industry.MANUFACTURING, 135, "Barcelona", "Spain"));
         this.crm.addAccount(new Account(Industry.ECOMMERCE, 56, "Madrid", "Spain"));
     }
+
+
+
+
+
 }

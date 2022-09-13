@@ -1,4 +1,4 @@
-package com.antoniomasfanclub.models.enums;
+package com.antoniomasfanclub.Model.enums;
 
 public enum Status {
 
