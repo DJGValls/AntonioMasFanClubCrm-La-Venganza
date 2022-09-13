@@ -1,10 +1,18 @@
-package com.antoniomasfanclub.models;
+package com.antoniomasfanclub.Model;
 
-import com.antoniomasfanclub.models.enums.Colours;
+import com.antoniomasfanclub.Model.enums.Colours;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class Person {
 
-    private final int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
     private String phoneNumber;
     private String email;
@@ -20,6 +28,10 @@ public abstract class Person {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.companyName = companyName;
+    }
+
+    public Person() {
+
     }
 
     public int getId() {

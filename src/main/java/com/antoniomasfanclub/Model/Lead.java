@@ -1,8 +1,13 @@
-package com.antoniomasfanclub.models;
+package com.antoniomasfanclub.Model;
 
-import com.antoniomasfanclub.models.enums.Colours;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "Leads")
 public class Lead extends Person {
+    @Id
     private static int generatedLeads = 0;
     private SalesRep salesRep;
 
@@ -17,7 +22,7 @@ public class Lead extends Person {
     public static int getGeneratedLeads() {
         return generatedLeads;
     }
-
+/*
     public SalesRep getSalesRep() {
         return salesRep;
     }
@@ -26,13 +31,16 @@ public class Lead extends Person {
         if (salesRep == null) throw new IllegalArgumentException("No valid sales rep selected");
         this.salesRep = salesRep;
     }
+*/
 
     private static int generateId() {
         return ++generatedLeads;
     }
 
+    /*
     @Override
     public String toString() {
         return super.toString() + " " +this.getSalesRep();
     }
+    */
 }
