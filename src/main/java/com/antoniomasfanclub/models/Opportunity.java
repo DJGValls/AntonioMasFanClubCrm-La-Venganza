@@ -4,8 +4,14 @@ import com.antoniomasfanclub.models.enums.Colours;
 import com.antoniomasfanclub.models.enums.Product;
 import com.antoniomasfanclub.models.enums.Status;
 
+import javax.persistence.*;
+import java.nio.MappedByteBuffer;
+
+@Entity
+@Table(name="opportunity")
 public class Opportunity {
 
+    @Id
     private final int id;
     private int quantity;
     private SalesRep salesRep;

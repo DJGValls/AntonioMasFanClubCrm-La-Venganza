@@ -3,10 +3,14 @@ package com.antoniomasfanclub.models;
 import com.antoniomasfanclub.models.enums.Colours;
 import com.antoniomasfanclub.models.enums.Industry;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.HashMap;
 import java.util.Map;
 
+@Entity
+@Table(name="account")
 public class Account {
     @Id
     private final int id;
