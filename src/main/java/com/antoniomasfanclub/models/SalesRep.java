@@ -2,31 +2,37 @@ package com.antoniomasfanclub.models;
 
 import com.antoniomasfanclub.models.enums.Colours;
 
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
-
+@Entity
+@Table(name = "SalesRep")
 public class SalesRep {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
+    @OneToMany(mappedBy = "leadId")
     private Map<Integer, Lead> leads;
+    @OneToMany(mappedBy = "opportunityId")
     private Map<Integer, Opportunity> opportunities;
-    private static int generatedSalesReps = 0;
+    //private static int generatedSalesReps = 0;
 
     public SalesRep() {
     }
 
     public SalesRep(String name) {
-        this.id = generateId();
+        //this.id = generateId();
         this.name = name;
         this.leads = new HashMap<>();
         this.opportunities = new HashMap<>();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -88,17 +94,20 @@ public class SalesRep {
         leads.remove(id);
     }
 
-    public static int getGeneratedSalesReps() {
-        return generatedSalesReps;
-    }
 
-
-    private static int generateId() {
-        return ++generatedSalesReps;
-    }
+//    public static int getGeneratedSalesReps() {
+//        return generatedSalesReps;
+//    }
+//
+//
+//    private static int generateId() {
+//        return ++generatedSalesReps;
+//    }
+//
 
     public String getFullDetails() {
         StringBuilder string = new StringBuilder(this + "\n");
+
 
         if (leads.isEmpty()) {
             string.append("This sales rep has ").append(CLI.colour(Colours.YELLOW, "no leads"));
