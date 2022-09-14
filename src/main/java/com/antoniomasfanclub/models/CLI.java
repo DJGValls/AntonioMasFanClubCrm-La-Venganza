@@ -59,14 +59,14 @@ public class CLI {
                             break;
                         }
                         if (userInput[1].equals("account")) {
-                            printItem(() -> this.crm.getAccount(id));
+                            printItem(() -> this.crm.getAccount(id).getFullDetails());
                             break;
                         }
                         if (userInput[1].equals("sales") || userInput[1].equals("salesrep")) {
-                            printItem(() -> this.crm.getSalesRep(id).getSalesRepDetails());
+                            printItem(() -> this.crm.getSalesRep(id).getFullDetails());
                             break;
                         }
-                        printer.println("Could not understand your input, please try again using " + colourString(Colours.CYAN, "lead") + ", " + colourString(Colours.CYAN, "contact") + ", " + colourString(Colours.CYAN, "account") + " , " + colourString(Colours.CYAN, "opportunity") + " or " + colourString(Colours.CYAN, "sales rep") + " followed by the id");
+                        printer.println("Could not understand your input, please try again using " + colour(Colours.CYAN, "lead") + ", " + colour(Colours.CYAN, "contact") + ", " + colour(Colours.CYAN, "account") + " , " + colour(Colours.CYAN, "opportunity") + " or " + colour(Colours.CYAN, "sales rep") + " followed by the id");
                         break;
                     case "list":
                         if (userInput[1].equals("leads")) {
@@ -89,7 +89,7 @@ public class CLI {
                             printList(this.crm.getSalesReps());
                             break;
                         }
-                        printer.println("Could not understand your input, please try again using " + colourString(Colours.CYAN, "leads") + ", " + colourString(Colours.CYAN, "contacts") + ", " + colourString(Colours.CYAN, "accounts") + ", " + colourString(Colours.CYAN, "opportunities") + " or " + colourString(Colours.CYAN, "sales reps") + ".");
+                        printer.println("Could not understand your input, please try again using " + colour(Colours.CYAN, "leads") + ", " + colour(Colours.CYAN, "contacts") + ", " + colour(Colours.CYAN, "accounts") + ", " + colour(Colours.CYAN, "opportunities") + " or " + colour(Colours.CYAN, "sales reps") + ".");
                         break;
                     case "convert":
                         convertLead(Integer.parseInt(userInput[userInput.length - 1]));
@@ -101,14 +101,14 @@ public class CLI {
                         run = false;
                         break;
                     default:
-                        printer.println("Sorry, I do not understand '" + colourString(Colours.YELLOW, String.join(" ", userInput)) + "'. Could you try again?");
+                        printer.println("Sorry, I do not understand '" + colour(Colours.YELLOW, String.join(" ", userInput)) + "'. Could you try again?");
                 }
             } catch (Exception e) {
                 printer.println("Your command seems to be unrecognisable or incomplete. Please try again.");
-                printer.println("If you are trying to enter an ID, make sure it's an " + colourString(Colours.YELLOW, "integer") + " and that you include it " + colourString(Colours.YELLOW, "at the end") + " of your command");
+                printer.println("If you are trying to enter an ID, make sure it's an " + colour(Colours.YELLOW, "integer") + " and that you include it " + colour(Colours.YELLOW, "at the end") + " of your command");
             }
         } while (run);
-        printer.println("Quitting the CRM. " + colourString(Colours.YELLOW, "Have a great day!"));
+        printer.println("Quitting the CRM. " + colour(Colours.YELLOW, "Have a great day!"));
     }
 
     /**
@@ -116,12 +116,12 @@ public class CLI {
      */
     private void printCRMOptions() {
         printer.println();
-        printer.println("- To create a new lead, type '" + colourString(Colours.GREEN, Command.NEW_LEAD.toString()) + "' ");
-        printer.println("- To see a specific lead, sales rep, contact, account or opportunity, type '" + colourString(Colours.GREEN, Command.LOOKUP.toString()) + "' or the equivalent, followed by the " + colourString(Colours.GREEN, "item id"));
-        printer.println("- To see all current leads, sales reps, contacts, accounts or opportunities, type '" + colourString(Colours.GREEN, Command.LIST_LEADS.toString()) + "' or the equivalent");
-        printer.println("- To convert a lead into an opportunity type '" + colourString(Colours.GREEN, Command.CONVERT.toString()) + "' followed by the " + colourString(Colours.GREEN, "lead id"));
-        printer.println("- To close an opportunity, type '" + colourString(Colours.RED, Command.CLOSED_LOST.toString()) + "' or '" + colourString(Colours.GREEN, Command.CLOSED_WON.toString()) + "' followed by the " + colourString(Colours.GREEN, "opportunity id"));
-        printer.println("- To quit the CRM, type '" + colourString(Colours.RED, Command.QUIT.toString()) + "' ");
+        printer.println("- To create a new lead, type '" + colour(Colours.GREEN, Command.NEW_LEAD.toString()) + "' ");
+        printer.println("- To see all details from a specific lead, sales rep, contact, account or opportunity, type '" + colour(Colours.GREEN, Command.LOOKUP.toString()) + "' or the equivalent, followed by the " + colour(Colours.GREEN, "item id"));
+        printer.println("- To see all current leads, sales reps, contacts, accounts or opportunities, type '" + colour(Colours.GREEN, Command.LIST_LEADS.toString()) + "' or the equivalent");
+        printer.println("- To convert a lead into an opportunity type '" + colour(Colours.GREEN, Command.CONVERT.toString()) + "' followed by the " + colour(Colours.GREEN, "lead id"));
+        printer.println("- To close an opportunity, type '" + colour(Colours.RED, Command.CLOSED_LOST.toString()) + "' or '" + colour(Colours.GREEN, Command.CLOSED_WON.toString()) + "' followed by the " + colour(Colours.GREEN, "opportunity id"));
+        printer.println("- To quit the CRM, type '" + colour(Colours.RED, Command.QUIT.toString()) + "' ");
     }
 
     /**
@@ -129,16 +129,16 @@ public class CLI {
      */
     private void createNewLead() {
         Lead lead = new Lead();
-        updateStringKey("Please introduce this lead's " + colourString(Colours.CYAN, "👤 name") + ":", lead::setName);
-        updateStringKey("Please introduce this lead's " + colourString(Colours.CYAN, "🏢 company name") + ":", lead::setCompanyName);
-        updateStringKey("Please introduce this lead's " + colourString(Colours.CYAN, "☎️ phone number") + ":", lead::setPhoneNumber);
-        updateStringKey("Please introduce this lead's " + colourString(Colours.CYAN, "✉️ email") + ":", lead::setEmail);
-        updateIntegerKeyFromMap("Please introduce this lead's " + colourString(Colours.CYAN, "💼 sales rep") + ":",
+        updateStringKey("Please introduce this lead's " + colour(Colours.CYAN, "👤 name") + ":", lead::setName);
+        updateStringKey("Please introduce this lead's " + colour(Colours.CYAN, "🏢 company name") + ":", lead::setCompanyName);
+        updateStringKey("Please introduce this lead's " + colour(Colours.CYAN, "☎️ phone number") + ":", lead::setPhoneNumber);
+        updateStringKey("Please introduce this lead's " + colour(Colours.CYAN, "✉️ email") + ":", lead::setEmail);
+        updateIntegerKeyFromMap("Please introduce this lead's " + colour(Colours.CYAN, "💼 sales rep") + ":",
                 this.crm.salesReps, (Integer salesRepId) -> lead.setSalesRep(this.crm.getSalesRep(salesRepId)));
 
 
         this.crm.addLead(lead, lead.getSalesRep().getId());
-        printer.println(colourString(Colours.GREEN, "Success!") + " Lead with ID " + colourString(Colours.CYAN, lead.getId() + "") + " was added to the leads list.");
+        printer.println(colour(Colours.GREEN, "Success!") + " Lead with ID " + colour(Colours.CYAN, lead.getId() + "") + " was added to the leads list.");
     }
 
     /**
@@ -155,13 +155,40 @@ public class CLI {
             Opportunity opportunity = createOpportunity(contact);
             printer.println("\nOpportunity created: " + opportunity + "\n");
 
-            Account account = createAccount(contact, opportunity);
-            printer.println("\nAccount created: " + account + "\n");
+            int nextInt = -1;
+            boolean validInput = false;
 
-            this.crm.deleteLead(key);
-            this.crm.addAccount(account);
-            this.crm.addContact(contact);
+            // In this do{} while() we await for an account ID or the keyword "new" in order to know if the new opportunity
+            // should be associated with an existing account or  if we should create a new one
+            do {
+                printer.println("Please introduce the ID of the account you want to associate this opportunity with. If you want to create a new opportunity instead, type " + colour(Colours.GREEN, "new") + " instead");
+                printList(this.crm.getAccounts());
+                String[] userInput = scanner.nextLine().trim().toLowerCase().split("[ -]");
+
+                if (userInput[0].equals("new")) {
+                    Account account = createAccount(contact, opportunity);
+                    printer.println("\nAccount created: " + account + "\n");
+                    this.crm.addAccount(account);
+                    validInput = true;
+
+                } else try {
+                    int index = Integer.parseInt(userInput[0]);
+                    Account account = this.crm.getAccounts().get(index);
+                    if (account == null)
+                        printer.println(colour(Colours.RED, "Error - ") + "No account was found with ID " + nextInt);
+                    else {
+                        account.addOpportunity(opportunity);
+                        account.addContact(contact);
+                        validInput = true;
+                    }
+                } catch (NumberFormatException e) {
+                    printError(e);
+                }
+            } while (!validInput);
+
             this.crm.addOpportunity(opportunity, lead.getSalesRep().getId());
+            this.crm.addContact(contact);
+            this.crm.deleteLead(key);
 
             printer.println("Completed lead conversion to opportunity\n");
         } catch (IllegalArgumentException e) {
@@ -178,7 +205,7 @@ public class CLI {
     private Opportunity createOpportunity(Contact contact) {
         Opportunity opportunity = new Opportunity();
         opportunity.setContact(contact);
-        printer.println("Creating a new " + colourString(Colours.GREEN, "opportunity"));
+        printer.println("Creating a new " + colour(Colours.GREEN, "opportunity"));
         updateIntegerKey("Please input this opportunity's quantity", opportunity::setQuantity);
         updateEnumKey(Product.BOX, opportunity::setProduct, opportunity::getProduct);
         updateEnumKey(Status.OPEN, opportunity::setStatus, opportunity::getStatus);
@@ -194,13 +221,13 @@ public class CLI {
      */
     private Account createAccount(Contact contact, Opportunity opportunity) {
         Account account = new Account();
-        printer.println("Creating the associated " + colourString(Colours.CYAN, "account"));
+        printer.println("Creating the associated " + colour(Colours.CYAN, "account"));
         account.addContact(contact);
         account.addOpportunity(opportunity);
         updateEnumKey(Industry.MEDICAL, account::setIndustry, account::getIndustry);
-        updateStringKey("Please introduce this account's " + colourString(Colours.GREEN, "🇺🇳 country") + ":", account::setCountry);
-        updateStringKey("Please introduce this account's " + colourString(Colours.CYAN, "🏬 city") + ":", account::setCity);
-        updateIntegerKey("Please introduce this account's " + colourString(Colours.YELLOW, "👔 employee count") + ":", account::setEmployeeCount);
+        updateStringKey("Please introduce this account's " + colour(Colours.GREEN, "🇺🇳 country") + ":", account::setCountry);
+        updateStringKey("Please introduce this account's " + colour(Colours.CYAN, "🏬 city") + ":", account::setCity);
+        updateIntegerKey("Please introduce this account's " + colour(Colours.YELLOW, "👔 employee count") + ":", account::setEmployeeCount);
         return account;
     }
 
@@ -213,13 +240,13 @@ public class CLI {
         try {
             if (userInput[1].equals("lost")) {
                 this.crm.getOpportunity(Integer.parseInt(userInput[2])).setStatus(Status.CLOSED_LOST);
-                printer.println("Opportunity closed as " + colourString(Colours.RED, "Lost"));
+                printer.println("Opportunity closed as " + colour(Colours.RED, "Lost"));
             } else if (userInput[1].equals("won")) {
                 this.crm.getOpportunity(Integer.parseInt(userInput[2])).setStatus(Status.CLOSED_WON);
-                printer.println("Opportunity closed as " + colourString(Colours.GREEN, "Won"));
+                printer.println("Opportunity closed as " + colour(Colours.GREEN, "Won"));
 
             } else {
-                printer.println("Opportunities must be marked as " + colourString(Colours.RED, "lost") + " or " + colourString(Colours.GREEN, "won") + " when closing.");
+                printer.println("Opportunities must be marked as " + colour(Colours.RED, "lost") + " or " + colour(Colours.GREEN, "won") + " when closing.");
             }
         } catch (IllegalArgumentException e) {
             printError(e);
@@ -312,7 +339,7 @@ public class CLI {
     private <T> void updateIntegerKeyFromMap(String message, Map<Integer, T> map, Consumer<Integer> updateMethod) {
         StringBuilder fullMessage = new StringBuilder(message + "\n");
         if (map.isEmpty()) {
-            printer.println("There are " + colourString(Colours.YELLOW, "no valid values") + " for this position. We shall leave it " + colourString(Colours.YELLOW, "empty") + " for now.");
+            printer.println("There are " + colour(Colours.YELLOW, "no valid values") + " for this position. We shall leave it " + colour(Colours.YELLOW, "empty") + " for now.");
         } else {
             for (T value : map.values()) fullMessage.append(value.toString()).append("\n");
             this.updateIntegerKey(fullMessage.toString(), updateMethod);
@@ -333,7 +360,7 @@ public class CLI {
             T[] enumValues = enumExample.getDeclaringClass().getEnumConstants();
             printer.println("Please enter the number of the product for this opportunity.");
             for (int i = 1; i <= enumValues.length; i++) {
-                printer.println(colourString(Colours.CYAN, " " + i + "- ") + enumValues[i - 1]);
+                printer.println(colour(Colours.CYAN, " " + i + "- ") + enumValues[i - 1]);
             }
             if (scanner.hasNextInt()) {
                 nextInt = scanner.nextInt();
@@ -355,12 +382,12 @@ public class CLI {
      * @param string the string you want to colour
      * @return Coloured string
      */
-    protected static String colourString(Colours colour, String string) {
+    protected static String colour(Colours colour, String string) {
         return colour + string + Colours.RESET;
     }
 
     private void printError(Exception e) {
-        printer.println(colourString(Colours.RED, "Error") + " " + e.getMessage() + "\n");
+        printer.println(colour(Colours.RED, "Error") + " " + e.getMessage() + "\n");
     }
 
     /**
@@ -373,15 +400,21 @@ public class CLI {
         this.crm.addSalesRep(salesRep1);
         this.crm.addSalesRep(salesRep2);
 
-        Contact contact1 = new Contact(new Lead("Esteban Coestáocupado", "687493822", "esteban@email.com", "BBVA"));
-        Contact contact2 = new Contact(new Lead("Federico Trillo", "675392876", "fede@email.com", "Construcciones Trillo S.L."));
-
         this.crm.addLead(new Lead("Benito Pérez", "636227551", "beni@email.com", "MediaMarkt"), salesRep1.getId());
         this.crm.addLead(new Lead("Coronel Tapioca", "636726671", "tapi@email.com", "Inditex"), salesRep1.getId());
         this.crm.addLead(new Lead("Juan Benigómez", "637538792", "per@email.com", "Keychron"), salesRep2.getId());
 
+        Contact contact1 = new Contact(new Lead("Esteban Coestáocupado", "687493822", "esteban@email.com", "BBVA"));
+        Contact contact2 = new Contact(new Lead("Federico Trillo", "675392876", "fede@email.com", "Construcciones Trillo S.L."));
+
+        this.crm.addContact(contact1);
+        this.crm.addContact(contact2);
+
         Opportunity opportunity1 = new Opportunity(3, Product.FLATBED, Status.OPEN, contact1);
         Opportunity opportunity2 = new Opportunity(5, Product.HYBRID, Status.CLOSED_WON, contact2);
+
+        opportunity1.setContact(contact1);
+        opportunity2.setContact(contact2);
 
         salesRep1.addOpportunity(opportunity1);
         salesRep2.addOpportunity(opportunity2);
@@ -389,10 +422,16 @@ public class CLI {
         this.crm.addOpportunity(opportunity1, salesRep1.getId());
         this.crm.addOpportunity(opportunity2, salesRep2.getId());
 
-        this.crm.addContact(contact1);
-        this.crm.addContact(contact2);
+        Account account1 = new Account(Industry.MANUFACTURING, 135, "Barcelona", "Spain");
+        Account account2 = new Account(Industry.ECOMMERCE, 56, "Madrid", "Spain");
 
-        this.crm.addAccount(new Account(Industry.MANUFACTURING, 135, "Barcelona", "Spain"));
-        this.crm.addAccount(new Account(Industry.ECOMMERCE, 56, "Madrid", "Spain"));
+        account1.addOpportunity(opportunity1);
+        account2.addOpportunity(opportunity2);
+
+        account1.addContact(contact1);
+        account2.addContact(contact2);
+
+        this.crm.addAccount(account1);
+        this.crm.addAccount(account2);
     }
 }

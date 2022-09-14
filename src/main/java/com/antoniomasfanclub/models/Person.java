@@ -32,7 +32,7 @@ public abstract class Person {
 
     public void setName(String name) {
         if (name == null || name.trim().length() < 3)
-            throw new IllegalArgumentException("Names should be at least " + CLI.colourString(Colours.YELLOW, "3 characters") + " long ");
+            throw new IllegalArgumentException("Names should be at least " + CLI.colour(Colours.YELLOW, "3 characters") + " long ");
         this.name = name.trim();
     }
 
@@ -45,7 +45,7 @@ public abstract class Person {
         if (phoneNumber.matches("\\d{9}"))
             this.phoneNumber = phoneNumber;
         else
-            throw new IllegalArgumentException("☎️ Phone numbers must have " + CLI.colourString(Colours.YELLOW, "9 numbers") + " with " + CLI.colourString(Colours.YELLOW, "no separators"));
+            throw new IllegalArgumentException("☎️ Phone numbers must have " + CLI.colour(Colours.YELLOW, "9 numbers") + " with " + CLI.colour(Colours.YELLOW, "no separators"));
     }
 
     public String getEmail() {
@@ -55,7 +55,7 @@ public abstract class Person {
     public void setEmail(String email) {
         if (email.matches("^(.+)@(\\S+)$")) this.email = email.trim();
         else
-            throw new IllegalArgumentException("✉️ Emails must follow the " + CLI.colourString(Colours.YELLOW, "xxx@yyy.zzz") + "format");
+            throw new IllegalArgumentException("✉️ Emails must follow the " + CLI.colour(Colours.YELLOW, "xxx@yyy.zzz") + "format");
     }
 
     public String getCompanyName() {
@@ -64,13 +64,13 @@ public abstract class Person {
 
     public void setCompanyName(String companyName) {
         if (companyName == null || companyName.trim().length() < 3)
-            throw new IllegalArgumentException("🏢 Company names should be at least " + CLI.colourString(Colours.YELLOW, "3 characters") + " long ");
+            throw new IllegalArgumentException("🏢 Company names should be at least " + CLI.colour(Colours.YELLOW, "3 characters") + " long ");
         this.companyName = companyName.trim();
     }
 
     @Override
     public String toString() {
-        return CLI.colourString(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId()+" ") + " " +
+        return CLI.colour(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId()+" ") + " " +
                 this.getName() + " 🏢 " + this.getCompanyName() + " ✉️ " + this.getEmail() + " ☎️ " + this.getPhoneNumber();
     }
 }

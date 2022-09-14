@@ -86,7 +86,7 @@ public class Account {
 
     public void setCity(String city) {
         if (city == null || city.trim().length() < 3)
-            throw new IllegalArgumentException("🏬 City name should be at least " + CLI.colourString(Colours.YELLOW, "3 characters") + " long ");
+            throw new IllegalArgumentException("🏬 City name should be at least " + CLI.colour(Colours.YELLOW, "3 characters") + " long ");
         this.city = city;
     }
 
@@ -96,7 +96,7 @@ public class Account {
 
     public void setCountry(String country) {
         if (country == null || country.trim().length() < 3)
-            throw new IllegalArgumentException("🇺🇳 Country name should be at least " + CLI.colourString(Colours.YELLOW, "3 characters") + " long ");
+            throw new IllegalArgumentException("🇺🇳 Country name should be at least " + CLI.colour(Colours.YELLOW, "3 characters") + " long ");
         this.country = country;
     }
 
@@ -131,8 +131,32 @@ public class Account {
         return ++generatedInstances;
     }
 
+    public String getFullDetails() {
+        StringBuilder string = new StringBuilder(this + "\n");
+
+        if (contactList.isEmpty()) {
+            string.append("This account has ").append(CLI.colour(Colours.YELLOW, "no contacts"));
+        } else {
+            string.append(CLI.colour(Colours.YELLOW, " Contacts:\n"));
+            for (Contact contact : contactList.values()) {
+                string.append("    ").append(contact).append("\n");
+            }
+        }
+
+        if (opportunityList.isEmpty()) {
+            string.append("This account has ").append(CLI.colour(Colours.YELLOW, "no opportunities"));
+        } else {
+            string.append(CLI.colour(Colours.YELLOW, " Opportunities:\n"));
+            for (Opportunity opportunity : opportunityList.values()) {
+                string.append("    ").append(opportunity).append("\n");
+            }
+        }
+
+        return string.toString();
+    }
+
     @Override
     public String toString() {
-        return CLI.colourString(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId() + " ") + " Industry: " + this.getIndustry().toString().toLowerCase() + "; 🏬 Located in: " + this.getCity() + ", " + this.getCountry() + "  👔 Employee count: " + this.getEmployeeCount();
+        return CLI.colour(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId() + " ") + " Industry: " + this.getIndustry().toString().toLowerCase() + "; 🏬 Located in: " + this.getCity() + ", " + this.getCountry() + "  👔 Employee count: " + this.getEmployeeCount();
     }
 }
