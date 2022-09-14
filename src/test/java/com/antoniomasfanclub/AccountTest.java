@@ -1,7 +1,7 @@
 package com.antoniomasfanclub;
 
-import com.antoniomasfanclub.models.Account;
-import com.antoniomasfanclub.models.enums.Industry;
+import com.antoniomasfanclub.model.Account;
+import com.antoniomasfanclub.model.enums.Industry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

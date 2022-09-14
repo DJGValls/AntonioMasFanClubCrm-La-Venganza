@@ -1,6 +1,6 @@
-package com.antoniomasfanclub.Service;
+package com.antoniomasfanclub.service;
 
-import com.antoniomasfanclub.Model.Lead;
+import com.antoniomasfanclub.model.Lead;
 
 import java.util.List;
 

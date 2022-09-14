@@ -1,7 +1,7 @@
-package com.antoniomasfanclub.Service;
+package com.antoniomasfanclub.service;
 
-import com.antoniomasfanclub.Model.Contact;
-import com.antoniomasfanclub.Repository.ContactRepository;
+import com.antoniomasfanclub.model.Contact;
+import com.antoniomasfanclub.repository.ContactRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

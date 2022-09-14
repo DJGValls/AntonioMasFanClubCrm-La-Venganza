@@ -1,7 +1,7 @@
-package com.antoniomasfanclub.Service;
+package com.antoniomasfanclub.service;
 
-import com.antoniomasfanclub.Model.Lead;
-import com.antoniomasfanclub.Repository.LeadRepository;
+import com.antoniomasfanclub.model.Lead;
+import com.antoniomasfanclub.repository.LeadRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
