@@ -1,4 +1,4 @@
-package com.antoniomasfanclub.models;
+package com.antoniomasfanclub.Model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class CRM {
         this.salesReps = new HashMap<>();
         this.opportunities = new HashMap<>();
     }
-
+/*
     public void addLead(Lead lead, int salesRepId) {
         if (lead == null)
             throw new IllegalArgumentException("No valid lead was passed");
@@ -54,6 +54,8 @@ public class CRM {
         if (contacts.get(id) == null) throw new IllegalArgumentException("No contacts found with ID " + id);
         contacts.remove(id);
     }
+
+ */
 
     public void addOpportunity(Opportunity opportunity, int salesRepId) {
         if (opportunity == null)

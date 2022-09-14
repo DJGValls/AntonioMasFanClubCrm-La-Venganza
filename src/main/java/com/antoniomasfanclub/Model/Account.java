@@ -1,7 +1,7 @@
-package com.antoniomasfanclub.models;
+package com.antoniomasfanclub.Model;
 
-import com.antoniomasfanclub.models.enums.Colours;
-import com.antoniomasfanclub.models.enums.Industry;
+import com.antoniomasfanclub.Model.enums.Colours;
+import com.antoniomasfanclub.Model.enums.Industry;
 
 import java.util.HashMap;
 import java.util.Map;

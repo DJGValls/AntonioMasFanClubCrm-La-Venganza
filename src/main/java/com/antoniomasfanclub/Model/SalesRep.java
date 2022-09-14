@@ -1,9 +1,10 @@
-package com.antoniomasfanclub.models;
+package com.antoniomasfanclub.Model;
 
-import com.antoniomasfanclub.models.enums.Colours;
+import com.antoniomasfanclub.Model.enums.Colours;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class SalesRep {
     private int id;

@@ -1,8 +1,8 @@
-package com.antoniomasfanclub.models;
+package com.antoniomasfanclub.Model;
 
-import com.antoniomasfanclub.models.enums.Colours;
-import com.antoniomasfanclub.models.enums.Product;
-import com.antoniomasfanclub.models.enums.Status;
+import com.antoniomasfanclub.Model.enums.Colours;
+import com.antoniomasfanclub.Model.enums.Product;
+import com.antoniomasfanclub.Model.enums.Status;
 
 public class Opportunity {
 
