@@ -63,8 +63,8 @@ public class SalesRep {
     }
 
     public void addOpportunity(Opportunity opportunity) {
-        if (opportunity == null) throw new IllegalArgumentException("No valid opportunity selected");
-        opportunities.put(opportunity.getId(), opportunity);
+//        if (opportunity == null) throw new IllegalArgumentException("No valid opportunity selected");
+//        opportunities.put(opportunity.getId(), opportunity);
     }
 
     public Opportunity getOpportunity(int id) {

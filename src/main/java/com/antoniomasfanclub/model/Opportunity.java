@@ -6,6 +6,7 @@ import com.antoniomasfanclub.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name="opportunity")
@@ -35,6 +36,13 @@ public class Opportunity {
 
     public Opportunity() {
         this.id = generateId();
+    }
+
+    public Opportunity(int quantity, Product product, Status status) {
+        this.id = generateId();
+        this.quantity = quantity;
+        this.product = product;
+        this.status = status;
     }
 
     public Opportunity(int quantity, Product product, Status status, Contact contact) {
@@ -111,6 +119,13 @@ public class Opportunity {
         Opportunity.generatedOpportunities = generatedOpportunities;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     public static int generateId() {
         return ++generatedOpportunities;

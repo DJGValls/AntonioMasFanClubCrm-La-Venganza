@@ -74,14 +74,14 @@ class CRMTest {
 
     @Test
     void addOpportunity() {
-        crm.addOpportunity(opportunity1, salesRep1.getId());
+        crm.addOpportunity(opportunity1, salesRep1.getId(), account1.getId());
         assertEquals(3, opportunity1.getQuantity());
         assertEquals(1, crm.getOpportunities().size());
     }
 
     @Test
     void deleteOpportunity() {
-        crm.addOpportunity(opportunity1, salesRep1.getId());
+        crm.addOpportunity(opportunity1, salesRep1.getId(), account1.getId());
         assertEquals(opportunity1, crm.getOpportunity(opportunity1.getId()));
         assertEquals(opportunity1, salesRep1.getOpportunity(opportunity1.getId()));
         crm.deleteOpportunity(opportunity1.getId());
