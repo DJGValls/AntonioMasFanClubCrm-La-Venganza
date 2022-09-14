@@ -2,12 +2,14 @@ package com.antoniomasfanclub.service;
 
 import com.antoniomasfanclub.model.Lead;
 import com.antoniomasfanclub.repository.LeadRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class LeadServiceImpl implements LeadService{
 
+    @Autowired
     private LeadRepository leadRepository;
 
     @Override
@@ -21,7 +23,7 @@ public class LeadServiceImpl implements LeadService{
     }
 
     @Override
-    public void SuprimLead(Lead lead) {
+    public void deleteLead(Lead lead) {
         leadRepository.delete(lead);
     }
 }

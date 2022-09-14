@@ -2,19 +2,19 @@ package com.antoniomasfanclub.model;
 
 import com.antoniomasfanclub.model.enums.Colours;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 @Entity
-@Table(name = "SalesRep")
+@Table(name = "sales_rep")
 public class SalesRep {
     @Id
     @GeneratedValue
     private Integer id;
     private String name;
-    @OneToMany(mappedBy = "lead_id")
+    @OneToMany(mappedBy = "salesRep")
     private Map<Integer, Lead> leads;
-    @OneToMany(mappedBy = "opportunity_id")
+    @OneToMany(mappedBy = "salesRep")
     private Map<Integer, Opportunity> opportunities;
     private static int generatedSalesReps = 0;
 

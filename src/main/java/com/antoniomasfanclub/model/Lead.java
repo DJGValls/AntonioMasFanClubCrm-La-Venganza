@@ -2,14 +2,15 @@ package com.antoniomasfanclub.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Leads")
+@Table(name = "lead")
 public class Lead extends Person {
     private static int generatedLeads = 0;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "sales_rep")
+    @JoinColumn(name = "sales_rep_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private SalesRep salesRep;
 

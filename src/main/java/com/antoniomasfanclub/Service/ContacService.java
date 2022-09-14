@@ -10,6 +10,6 @@ public interface ContacService {
 
     Contact addNewContact(Contact contact);
 
-    void SuprimCoctact(Contact contact);
+    void deleteContact(Contact contact);
 
 }

@@ -5,7 +5,7 @@ import com.antoniomasfanclub.model.enums.Product;
 import com.antoniomasfanclub.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="opportunity")
@@ -15,14 +15,22 @@ public class Opportunity {
     @GeneratedValue
     private final int id;
     private int quantity;
+    private Product product;
+    private Status status;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sales_rep")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private SalesRep salesRep;
-    private Product product;
-    private Status status;
-    @OneToOne(mappedBy="contact")
+
+    @OneToOne(mappedBy="opportunity")
     private Contact contact;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "account")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Account account;
+
     private static int generatedOpportunities = 0;
 
     public Opportunity() {

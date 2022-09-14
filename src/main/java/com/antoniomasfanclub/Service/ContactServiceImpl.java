@@ -23,7 +23,7 @@ public class ContactServiceImpl implements ContacService{
     }
 
     @Override
-    public void SuprimCoctact(Contact contact) {
+    public void deleteContact(Contact contact) {
         contactRepository.delete(contact);
 
     }

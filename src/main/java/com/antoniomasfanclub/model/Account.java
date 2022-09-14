@@ -3,7 +3,7 @@ package com.antoniomasfanclub.model;
 import com.antoniomasfanclub.model.enums.Colours;
 import com.antoniomasfanclub.model.enums.Industry;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,9 +17,9 @@ public class Account {
     private Industry industry;
     private String city;
     private String country;
-    @OneToMany(mappedBy = "contact_id")
+    @OneToMany(mappedBy = "account")
     private final Map<Integer, Contact> contactList;
-    @OneToMany(mappedBy = "opportunity_id")
+    @OneToMany(mappedBy = "account")
     private final Map<Integer, Opportunity> opportunityList;
     private static int generatedInstances = 0;
 

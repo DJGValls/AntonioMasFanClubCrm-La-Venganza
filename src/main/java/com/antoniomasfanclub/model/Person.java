@@ -2,16 +2,15 @@ package com.antoniomasfanclub.model;
 
 import com.antoniomasfanclub.model.enums.Colours;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int id;
     private String name;
     private String phoneNumber;
@@ -31,7 +30,6 @@ public abstract class Person {
     }
 
     public Person() {
-
     }
 
     public int getId() {
@@ -53,7 +51,7 @@ public abstract class Person {
     }
 
     public void setPhoneNumber(String phoneNumber) throws IllegalArgumentException {
-//        Regex patterns to account for simple phone numbers
+        // Regex patterns to account for simple phone numbers
         if (phoneNumber.matches("\\d{9}"))
             this.phoneNumber = phoneNumber;
         else

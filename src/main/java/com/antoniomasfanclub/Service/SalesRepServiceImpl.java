@@ -8,11 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SalesRepServiceImpl implements SalesRepService{
+public class SalesRepServiceImpl implements SalesRepService  {
 
     @Autowired
     SalesRepRepository salesRepRepository;
-
 
     @Override
     public List<SalesRep> findAll() {

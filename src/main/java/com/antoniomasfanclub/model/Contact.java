@@ -1,13 +1,22 @@
 package com.antoniomasfanclub.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Contacts")
+@Table(name = "contact")
 public class Contact extends Person{
 
     private static int generatedContacts = 0;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "account")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Account account;
+
+    @OneToOne
+    @JoinColumn(name = "opportunity_id")
+    private Opportunity opportunity;
 
     public Contact(Lead lead) {
         super(generateId(), lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());

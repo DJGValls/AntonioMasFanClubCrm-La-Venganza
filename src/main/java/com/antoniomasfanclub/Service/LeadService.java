@@ -10,6 +10,6 @@ public interface LeadService {
 
     Lead addNewLead(Lead lead);
 
-    void SuprimLead(Lead lead);
+    void deleteLead(Lead lead);
 
 }

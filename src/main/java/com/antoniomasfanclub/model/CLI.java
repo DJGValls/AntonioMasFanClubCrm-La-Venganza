@@ -31,7 +31,7 @@ public class CLI {
      * The core method of the CRM, and the only public one. Creates an infinite loop that translates user input into
      * actions, and only ends when instructed to by the user,
      */
-   public void startCRM() {
+   public void runCRM() {
         printer.println(Colours.BACKGROUND_YELLOW + "@@@@@@@@@@@@ Welcome to the " + Colours.RED + "🍆Antonio Mas👼🏻 Fan Club CRM®️" + Colours.BLACK + "! @@@@@@@@@@@@" + Colours.RESET);
         boolean run = true;
 
