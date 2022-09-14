@@ -1,6 +1,6 @@
 package com.antoniomasfanclub;
 
-import com.antoniomasfanclub.models.Lead;
+import com.antoniomasfanclub.model.Lead;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

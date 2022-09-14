@@ -1,8 +1,8 @@
 package com.antoniomasfanclub;
 
-import com.antoniomasfanclub.models.*;
-import com.antoniomasfanclub.models.enums.Product;
-import com.antoniomasfanclub.models.enums.Status;
+import com.antoniomasfanclub.model.*;
+import com.antoniomasfanclub.model.enums.Product;
+import com.antoniomasfanclub.model.enums.Status;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;

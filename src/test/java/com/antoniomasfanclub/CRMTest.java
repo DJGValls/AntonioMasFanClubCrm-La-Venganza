@@ -1,9 +1,9 @@
 package com.antoniomasfanclub;
 
-import com.antoniomasfanclub.models.*;
-import com.antoniomasfanclub.models.enums.Industry;
-import com.antoniomasfanclub.models.enums.Product;
-import com.antoniomasfanclub.models.enums.Status;
+import com.antoniomasfanclub.model.*;
+import com.antoniomasfanclub.model.enums.Industry;
+import com.antoniomasfanclub.model.enums.Product;
+import com.antoniomasfanclub.model.enums.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
