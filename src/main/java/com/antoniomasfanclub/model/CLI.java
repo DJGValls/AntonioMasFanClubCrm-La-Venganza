@@ -5,6 +5,7 @@ import com.antoniomasfanclub.model.enums.*;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
@@ -31,7 +32,7 @@ public class CLI {
      * The core method of the CRM, and the only public one. Creates an infinite loop that translates user input into
      * actions, and only ends when instructed to by the user,
      */
-   public void runCRM() {
+    public void runCRM() {
         printer.println(Colours.BACKGROUND_YELLOW + "@@@@@@@@@@@@ Welcome to the " + Colours.RED + "🍆Antonio Mas👼🏻 Fan Club CRM®️" + Colours.BLACK + "! @@@@@@@@@@@@" + Colours.RESET);
         boolean run = true;
 
@@ -113,7 +114,6 @@ public class CLI {
     }
 
 
-
     /**
      * To avoid clogging the previous method, the options menu is extracted to an independent method.
      */
@@ -136,14 +136,13 @@ public class CLI {
         updateStringKey("Please introduce this lead's " + colour(Colours.CYAN, "🏢 company name") + ":", lead::setCompanyName);
         updateStringKey("Please introduce this lead's " + colour(Colours.CYAN, "☎️ phone number") + ":", lead::setPhoneNumber);
         updateStringKey("Please introduce this lead's " + colour(Colours.CYAN, "✉️ email") + ":", lead::setEmail);
-        updateIntegerKeyFromMap("Please introduce this lead's " + colour(Colours.CYAN, "💼 sales rep") + ":",
-                this.crm.salesReps, (Integer salesRepId) -> lead.setSalesRep(this.crm.getSalesRep(salesRepId)));
+        updateIntegerKeyFromList("Please introduce this lead's " + colour(Colours.CYAN, "💼 sales rep") + ":",
+                this.crm.getSalesReps(), (Integer salesRepId) -> lead.setSalesRep(this.crm.getSalesRep(salesRepId)));
 
 
         this.crm.addLead(lead, lead.getSalesRep().getId());
         printer.println(colour(Colours.GREEN, "Success!") + " Lead with ID " + colour(Colours.CYAN, lead.getId() + "") + " was added to the leads list.");
     }
-
 
 
     /**
@@ -200,7 +199,6 @@ public class CLI {
             printError(e);
         }
     }
-
 
 
     /**
@@ -261,15 +259,15 @@ public class CLI {
     }
 
     /**
-     * Prints all the keys of any given Map onto the console.
+     * Prints all the keys of any given list onto the console.
      *
-     * @param list Any kind of Map that you want to print on the console
+     * @param list Any kind of list that you want to print on the console
      */
-    private <T> void printList(Map<Integer, T> list) {
-        if (list.keySet().size() == 0)
+    private <T> void printList(List<T> list) {
+        if (list.size() == 0)
             printer.println("There are no items in this list.");
-        for (int key : list.keySet()) {
-            printer.println(list.get(key));
+        for (T item : list) {
+            printer.println(item);
         }
     }
 
@@ -337,18 +335,18 @@ public class CLI {
     }
 
     /**
-     * Enables a simple way to update Object keys from the console printing a map as an options list.
+     * Enables a simple way to update Object keys from the console printing a list as an options list.
      *
      * @param message      The message shown in the console before running the update method
-     * @param map          A map with Integer keys for the element you want to select
+     * @param list         A list of the element you want to select
      * @param updateMethod A consumer, ideally a class setter, that accepts an Integer param.
      */
-    private <T> void updateIntegerKeyFromMap(String message, Map<Integer, T> map, Consumer<Integer> updateMethod) {
+    private <T> void updateIntegerKeyFromList(String message, List<T> list, Consumer<Integer> updateMethod) {
         StringBuilder fullMessage = new StringBuilder(message + "\n");
-        if (map.isEmpty()) {
+        if (list.isEmpty()) {
             printer.println("There are " + colour(Colours.YELLOW, "no valid values") + " for this position. We shall leave it " + colour(Colours.YELLOW, "empty") + " for now.");
         } else {
-            for (T value : map.values()) fullMessage.append(value.toString()).append("\n");
+            for (T value : list) fullMessage.append(value.toString()).append("\n");
             this.updateIntegerKey(fullMessage.toString(), updateMethod);
         }
     }
@@ -441,9 +439,6 @@ public class CLI {
         this.crm.addAccount(account1);
         this.crm.addAccount(account2);
     }
-
-
-
 
 
 }

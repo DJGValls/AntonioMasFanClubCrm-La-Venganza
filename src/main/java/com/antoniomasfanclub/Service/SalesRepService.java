@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface SalesRepService {
 
-    List<SalesRep> findAll();
-    SalesRep createSalesRep(String name);
+    List<SalesRep> getAll();
+    SalesRep save(SalesRep salesRep);
+    SalesRep update(SalesRep salesRep);
+    SalesRep getById(Integer id);
+    void delete(Integer id);
 
 }

@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "lead")
 public class Lead extends Person {
-    private static int generatedLeads = 0;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sales_rep_id")
@@ -15,16 +14,17 @@ public class Lead extends Person {
     private SalesRep salesRep;
 
     public Lead() {
-        super(generateId());
+        super();
     }
 
     public Lead(String name, String phoneNumber, String email, String companyName) {
-        super(generateId(), name, phoneNumber, email, companyName);
+        super( name, phoneNumber, email, companyName);
     }
 
-    public static int getGeneratedLeads() {
-        return generatedLeads;
+    public Lead(Integer id, String name, String phoneNumber, String email, String companyName) {
+        super( id, name, phoneNumber, email, companyName);
     }
+
 
     public SalesRep getSalesRep() {
         return salesRep;
@@ -33,11 +33,6 @@ public class Lead extends Person {
     public void setSalesRep(SalesRep salesRep) {
         if (salesRep == null) throw new IllegalArgumentException("No valid sales rep selected");
         this.salesRep = salesRep;
-    }
-
-
-    private static int generateId() {
-        return ++generatedLeads;
     }
 
     @Override

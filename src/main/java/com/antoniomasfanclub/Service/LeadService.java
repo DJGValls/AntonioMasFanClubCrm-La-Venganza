@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface LeadService {
 
-    List<Lead> listOfLeads();
-
-    Lead addNewLead(Lead lead);
-
-    void deleteLead(Lead lead);
+    List<Lead> getAll();
+    Lead getById(Integer id);
+    Lead save(Lead lead);
+    Lead update(Lead lead);
+    void delete(Integer id);
 
 }

@@ -6,24 +6,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
-public class LeadServiceImpl implements LeadService{
+public class LeadServiceImpl implements LeadService {
 
     @Autowired
     private LeadRepository leadRepository;
 
     @Override
-    public List<Lead> listOfLeads() {
+    public List<Lead> getAll() {
         return leadRepository.findAll();
     }
 
     @Override
-    public Lead addNewLead(Lead lead) {
+    public Lead getById(Integer id) {
+        return this.leadRepository.getReferenceById(id);
+    }
+
+    @Override
+    public Lead save(Lead lead) {
         return (Lead) leadRepository.save(lead);
     }
 
     @Override
-    public void deleteLead(Lead lead) {
-        leadRepository.delete(lead);
+    public Lead update(Lead lead) {
+        return (Lead) leadRepository.save(lead);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        leadRepository.delete(leadRepository.getReferenceById(id));
     }
 }

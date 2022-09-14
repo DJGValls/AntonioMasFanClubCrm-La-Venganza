@@ -17,8 +17,13 @@ public abstract class Person {
     private String email;
     private String companyName;
 
-    public Person(int id) {
-        this.id = id;
+    public Person() {    }
+
+    public Person(String name, String phoneNumber, String email, String companyName) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.companyName = companyName;
     }
 
     public Person(int id, String name, String phoneNumber, String email, String companyName) {
@@ -27,9 +32,6 @@ public abstract class Person {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.companyName = companyName;
-    }
-
-    public Person() {
     }
 
     public int getId() {

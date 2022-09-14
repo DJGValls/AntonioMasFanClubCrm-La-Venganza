@@ -14,14 +14,28 @@ public class SalesRepServiceImpl implements SalesRepService  {
     SalesRepRepository salesRepRepository;
 
     @Override
-    public List<SalesRep> findAll() {
+    public List<SalesRep> getAll() {
         return salesRepRepository.findAll();
     }
 
     @Override
-    public SalesRep createSalesRep(String name) {
-        SalesRep newSalesRep = new SalesRep(name);
-        return salesRepRepository.save(newSalesRep);
+    public SalesRep save(SalesRep salesRep) {
+        return salesRepRepository.save(salesRep);
+    }
+
+    @Override
+    public SalesRep update(SalesRep salesRep) {
+        return salesRepRepository.save(salesRep);
+    }
+
+    @Override
+    public SalesRep getById(Integer id) {
+        return this.salesRepRepository.getReferenceById(id);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        this.salesRepRepository.delete(this.salesRepRepository.getReferenceById(id));
     }
 
 }
