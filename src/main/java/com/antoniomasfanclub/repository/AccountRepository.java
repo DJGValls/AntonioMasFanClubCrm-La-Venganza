@@ -1,6 +1,6 @@
 package com.antoniomasfanclub.repository;
 
-import com.antoniomasfanclub.models.Account;
+import com.antoniomasfanclub.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

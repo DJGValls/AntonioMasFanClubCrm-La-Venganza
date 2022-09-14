@@ -1,8 +1,7 @@
-package com.antoniomasfanclub.repositories;
+package com.antoniomasfanclub.repository;
 
-import com.antoniomasfanclub.models.SalesRep;
+import com.antoniomasfanclub.model.SalesRep;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -1,7 +1,7 @@
-package com.antoniomasfanclub.services;
+package com.antoniomasfanclub.service;
 
-import com.antoniomasfanclub.models.SalesRep;
-import com.antoniomasfanclub.repositories.SalesRepRepository;
+import com.antoniomasfanclub.model.SalesRep;
+import com.antoniomasfanclub.repository.SalesRepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

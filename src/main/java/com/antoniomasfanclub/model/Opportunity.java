@@ -3,20 +3,25 @@ package com.antoniomasfanclub.model;
 import com.antoniomasfanclub.model.enums.Colours;
 import com.antoniomasfanclub.model.enums.Product;
 import com.antoniomasfanclub.model.enums.Status;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.nio.MappedByteBuffer;
 
 @Entity
 @Table(name="opportunity")
 public class Opportunity {
 
     @Id
+    @GeneratedValue
     private final int id;
     private int quantity;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "sales_rep")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private SalesRep salesRep;
     private Product product;
     private Status status;
+    @OneToOne(mappedBy="contact")
     private Contact contact;
     private static int generatedOpportunities = 0;
 

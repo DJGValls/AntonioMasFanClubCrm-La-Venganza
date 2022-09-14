@@ -1,14 +1,16 @@
 package com.antoniomasfanclub.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Leads")
 public class Lead extends Person {
-    @Id
     private static int generatedLeads = 0;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "sales_rep")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private SalesRep salesRep;
 
     public Lead() {

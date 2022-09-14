@@ -1,6 +1,6 @@
-package com.antoniomasfanclub.models;
+package com.antoniomasfanclub.model;
 
-import com.antoniomasfanclub.models.enums.Colours;
+import com.antoniomasfanclub.model.enums.Colours;
 
 import javax.persistence.*;
 import java.util.HashMap;
@@ -9,20 +9,20 @@ import java.util.Map;
 @Table(name = "SalesRep")
 public class SalesRep {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
     private String name;
-    @OneToMany(mappedBy = "leadId")
+    @OneToMany(mappedBy = "lead_id")
     private Map<Integer, Lead> leads;
-    @OneToMany(mappedBy = "opportunityId")
+    @OneToMany(mappedBy = "opportunity_id")
     private Map<Integer, Opportunity> opportunities;
-    //private static int generatedSalesReps = 0;
+    private static int generatedSalesReps = 0;
 
     public SalesRep() {
     }
 
     public SalesRep(String name) {
-        //this.id = generateId();
+        this.id = generateId();
         this.name = name;
         this.leads = new HashMap<>();
         this.opportunities = new HashMap<>();
@@ -95,15 +95,15 @@ public class SalesRep {
     }
 
 
-//    public static int getGeneratedSalesReps() {
-//        return generatedSalesReps;
-//    }
-//
-//
-//    private static int generateId() {
-//        return ++generatedSalesReps;
-//    }
-//
+    public static int getGeneratedSalesReps() {
+        return generatedSalesReps;
+    }
+
+
+    private static int generateId() {
+        return ++generatedSalesReps;
+    }
+
 
     public String getFullDetails() {
         StringBuilder string = new StringBuilder(this + "\n");
