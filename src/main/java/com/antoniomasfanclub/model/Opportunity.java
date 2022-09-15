@@ -3,10 +3,8 @@ package com.antoniomasfanclub.model;
 import com.antoniomasfanclub.model.enums.Colours;
 import com.antoniomasfanclub.model.enums.Product;
 import com.antoniomasfanclub.model.enums.Status;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
-import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "opportunity")

@@ -1,6 +1,7 @@
 package com.antoniomasfanclub.service;
 
 import com.antoniomasfanclub.model.Lead;
+import com.antoniomasfanclub.model.SalesRep;
 import com.antoniomasfanclub.repository.LeadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,10 @@ public class LeadServiceImpl implements LeadService {
     @Override
     public void delete(Integer id) {
         leadRepository.delete(leadRepository.getLeadById(id));
+    }
+
+    @Override
+    public List<SalesRep> getLeadsBySalesRep(SalesRep salesRep) {
+        return this.leadRepository.getLeadsBySalesRep(salesRep);
     }
 }
