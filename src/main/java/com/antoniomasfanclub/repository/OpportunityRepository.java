@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OpportunityRepository extends JpaRepository<Opportunity, Integer> {
-
-    //Opportunity getOpportunityById(int id);
+    Opportunity getOpportunityById(int id);
 }

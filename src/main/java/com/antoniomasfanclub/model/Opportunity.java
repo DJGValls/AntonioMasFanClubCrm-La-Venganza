@@ -9,27 +9,25 @@ import jakarta.persistence.*;
 import org.springframework.lang.Nullable;
 
 @Entity
-@Table(name="opportunity")
+@Table(name = "opportunity")
 public class Opportunity {
 
     @Id
     @GeneratedValue
-    private final int id;
-    private int quantity;
+    private Integer id;
+    private Integer quantity;
     private Product product;
     private Status status;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "sales_rep")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private SalesRep salesRep;
 
-    @OneToOne(mappedBy="opportunity")
+    @OneToOne(mappedBy = "opportunity")
     private Contact contact;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "account")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Account account;
 
     private static int generatedOpportunities = 0;
@@ -131,9 +129,13 @@ public class Opportunity {
         return ++generatedOpportunities;
     }
 
-    @Override
-    public String toString() {
+    public String getFullDetails() {
         return CLI.colour(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId() + " ") + " #️⃣ " + this.getQuantity() + " 🚛 " + product +
                 " 👤" + contact.getName() + " from " + contact.getCompanyName() + "; 🚦 status: " + status + " " + this.getSalesRep();
+    }
+
+    @Override
+    public String toString() {
+        return CLI.colour(Colours.BACKGROUND_CYAN, " 🆔 " + this.getId() + " ") + " #️⃣ " + this.getQuantity() + " 🚛 " + product + "; 🚦 status: " + status;
     }
 }

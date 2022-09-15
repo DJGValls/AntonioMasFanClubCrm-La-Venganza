@@ -30,7 +30,6 @@ public class CRM {
         if (salesRep == null)
             throw new IllegalArgumentException("No sales rep could be found in the CRM with ID " + salesRepId);
 
-     //   salesRep.addLead(lead);
         lead.setSalesRep(salesRep);
         return leadService.save(lead);
     }
@@ -52,6 +51,11 @@ public class CRM {
         return contactService.save(contact);
     }
 
+    public Contact updateContact(Contact contact) {
+        if (contact == null) throw new IllegalArgumentException("No valid contacts passed");
+        return contactService.update(contact);
+    }
+
     public Contact getContact(Integer id) {
         if (contactService.getById(id) == null) throw new IllegalArgumentException("No contacts found with ID " + id);
         return contactService.getById(id);
@@ -65,16 +69,17 @@ public class CRM {
     public Opportunity addOpportunity(Opportunity opportunity, Integer salesRepId, Integer accountId) {
         if (opportunity == null)
             throw new IllegalArgumentException("No valid opportunity was passed");
-        SalesRep salesRep = this.salesRepService.getById(salesRepId);
+       SalesRep salesRep = this.salesRepService.getById(salesRepId);
         if (salesRep == null)
             throw new IllegalArgumentException("No sales rep could be found in the CRM with ID " + salesRepId);
         Account account = this.accountService.getById(accountId);
         if (account == null)
             throw new IllegalArgumentException("No account could be found in the CRM with ID " + accountId);
         //   salesRep.addOpportunity(opportunity);
-        opportunity.setSalesRep(salesRep);
         opportunity.setAccount(account);
-        return opportunityService.save(opportunity);
+        opportunity.setSalesRep(salesRep);
+        Opportunity savedOpportunity = opportunityService.save(opportunity);
+        return getOpportunity(savedOpportunity.getId());
     }
 
     public Opportunity updateOpportunity(Opportunity opportunity) {
@@ -99,6 +104,10 @@ public class CRM {
 
     public Account addAccount(Account account) {
         return accountService.save(account);
+    }
+
+    public Account updateAccount(Account account) {
+        return accountService.update(account);
     }
 
     public Account getAccount(Integer id) {

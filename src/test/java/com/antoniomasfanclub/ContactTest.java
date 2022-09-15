@@ -1,7 +1,9 @@
 package com.antoniomasfanclub;
 
+import com.antoniomasfanclub.model.Account;
 import com.antoniomasfanclub.model.Contact;
 import com.antoniomasfanclub.model.Lead;
+import com.antoniomasfanclub.model.Opportunity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -20,7 +20,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getById(Integer id) {
-        return this.accountRepository.getReferenceById(id);
+        return this.accountRepository.getAccountById(id);
     }
 
     @Override
@@ -35,6 +35,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void delete(Integer id) {
-        this.accountRepository.delete(this.accountRepository.getReferenceById(id));
+        this.accountRepository.delete(this.accountRepository.getAccountById(id));
     }
 }

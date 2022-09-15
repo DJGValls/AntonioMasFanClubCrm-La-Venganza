@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 @Table(name = "lead")
 public class Lead extends Person {
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "sales_rep_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private SalesRep salesRep;

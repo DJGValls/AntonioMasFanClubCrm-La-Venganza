@@ -3,6 +3,7 @@ package com.antoniomasfanclub.service;
 import com.antoniomasfanclub.model.Contact;
 import com.antoniomasfanclub.model.Lead;
 import com.antoniomasfanclub.repository.ContactRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Contact getById(Integer id) {
-        return this.contactRepository.getReferenceById(id);
+        return this.contactRepository.getContactById(id);
     }
 
     @Override
@@ -35,6 +36,6 @@ public class ContactServiceImpl implements ContactService {
     }
     @Override
     public void delete(Integer id) {
-        contactRepository.delete(contactRepository.getReferenceById(id));
+        contactRepository.delete(contactRepository.getContactById(id));
     }
 }

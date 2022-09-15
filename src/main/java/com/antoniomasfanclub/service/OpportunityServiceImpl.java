@@ -20,7 +20,7 @@ public class OpportunityServiceImpl implements OpportunityService {
 
     @Override
     public Opportunity getById(Integer id) {
-        return this.opportunityRepository.getReferenceById(id);
+        return this.opportunityRepository.getOpportunityById(id);
     }
 
     @Override
@@ -35,6 +35,6 @@ public class OpportunityServiceImpl implements OpportunityService {
 
     @Override
     public void delete(Integer id) {
-        this.opportunityRepository.delete(this.opportunityRepository.getReferenceById(id));
+        this.opportunityRepository.delete(this.opportunityRepository.getOpportunityById(id));
     }
 }

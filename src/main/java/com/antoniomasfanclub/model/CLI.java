@@ -25,25 +25,13 @@ public class CLI {
      */
     private final PrintWriter printer = new PrintWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8), true);
 
-//    public CLI() {
-////        crm = new CRM();
-//    }
-
-
     /**
      * The core method of the CRM, and the only public one. Creates an infinite loop that translates user input into
      * actions, and only ends when instructed to by the user,
      */
     public void runCRM() {
         scanner = new Scanner(System.in);
-//        populateCRM();
-
-        SalesRep salesRep1 = this.crm.addSalesRep(new SalesRep("Pepe García"));
-        SalesRep salesRep2 = this.crm.addSalesRep(new SalesRep("María Merino"));
-        this.crm.addLead(new Lead("Benito Pérez", "636227551", "beni@email.com", "MediaMarkt"), salesRep1.getId());
-        this.crm.addLead(new Lead("Coronel Tapioca", "636726671", "tapi@email.com", "Inditex"), salesRep1.getId());
-        this.crm.addLead(new Lead("Juan Benigómez", "637538792", "per@email.com", "Keychron"), salesRep2.getId());
-
+        populateCRM();
         printer.println(Colours.BACKGROUND_YELLOW + "@@@@@@@@@@@@ Welcome to the " + Colours.RED + "🍆Antonio Mas👼🏻 Fan Club CRM®️" + Colours.BLACK + "! @@@@@@@@@@@@" + Colours.RESET);
         boolean run = true;
 
@@ -64,7 +52,7 @@ public class CLI {
                             break;
                         }
                         if (userInput[1].equals("opportunity")) {
-                            printItem(() -> this.crm.getOpportunity(id));
+                            printItem(() -> this.crm.getOpportunity(id).getFullDetails());
                             break;
                         }
                         if (userInput[1].equals("contact")) {
@@ -164,10 +152,12 @@ public class CLI {
     private void convertLead(int key) {
         try {
             Lead lead = this.crm.getLead(key);
-            Contact contact = new Contact(lead);
             printer.println("Converting the following lead: " + lead);
 
-            Opportunity opportunity = createOpportunity(contact);
+            Contact contact = this.crm.addContact(new Contact(lead));
+            SalesRep salesRep = lead.getSalesRep();
+
+            Opportunity opportunity = createOpportunity(contact, salesRep);
             printer.println("\nOpportunity created: " + opportunity + "\n");
 
             int nextInt = -1;
@@ -181,27 +171,30 @@ public class CLI {
                 String[] userInput = scanner.nextLine().trim().toLowerCase().split("[ -]");
 
                 if (userInput[0].equals("new")) {
-                    Account account = createAccount(contact, opportunity);
+
+                    Account account = createAccount();
                     printer.println("\nAccount created: " + account + "\n");
                     this.crm.addAccount(account);
-                    this.crm.addOpportunity(opportunity, lead.getSalesRep().getId(), account.getId());
+                    opportunity = this.crm.addOpportunity(opportunity, salesRep.getId(), account.getId());
+                    contact.setOpportunity(opportunity);
+                    this.crm.updateContact(contact);
                     validInput = true;
+
                 } else try {
-                    int index = Integer.parseInt(userInput[0]);
-                    Account account = this.crm.getAccounts().get(index);
+                    Integer index = Integer.parseInt(userInput[0]);
+                    Account account = this.crm.getAccount(index);
                     if (account == null)
                         printer.println(colour(Colours.RED, "Error - ") + "No account was found with ID " + nextInt);
                     else {
-                        account.addContact(contact);
-                        account.addOpportunity(opportunity);
-                        this.crm.addOpportunity(opportunity, lead.getSalesRep().getId(), account.getId());
+                        opportunity = this.crm.addOpportunity(opportunity, salesRep.getId(), account.getId());
+                        contact.setOpportunity(opportunity);
+                        this.crm.updateContact(contact);
                         validInput = true;
                     }
                 } catch (NumberFormatException e) {
                     printError(e);
                 }
             } while (!validInput);
-            this.crm.addContact(contact);
             this.crm.deleteLead(key);
 
             printer.println("Completed lead conversion to opportunity\n");
@@ -217,7 +210,7 @@ public class CLI {
      * @param contact the Contact instance the new Opportunity should be associated with, based on the original Lead
      * @return the created Opportunity instance
      */
-    private Opportunity createOpportunity(Contact contact) {
+    private Opportunity createOpportunity(Contact contact, SalesRep salesRep) {
         Opportunity opportunity = new Opportunity();
         opportunity.setContact(contact);
         printer.println("Creating a new " + colour(Colours.GREEN, "opportunity"));
@@ -230,20 +223,17 @@ public class CLI {
     /**
      * Creates a new Account instance associated with a Contact and an Opportunity instances.
      *
-     * @param contact     the Contact instance the new Account should be associated with, based on the original Lead
-     * @param opportunity the Opportunity instance the new Account should be associated with
      * @return the created Account instance
      */
-    private Account createAccount(Contact contact, Opportunity opportunity) {
+    private Account createAccount() {
         Account account = new Account();
         printer.println("Creating the associated " + colour(Colours.CYAN, "account"));
-        account.addContact(contact);
-        account.addOpportunity(opportunity);
+
         updateEnumKey(Industry.MEDICAL, account::setIndustry, account::getIndustry);
         updateStringKey("Please introduce this account's " + colour(Colours.GREEN, "🇺🇳 country") + ":", account::setCountry);
         updateStringKey("Please introduce this account's " + colour(Colours.CYAN, "🏬 city") + ":", account::setCity);
         updateIntegerKey("Please introduce this account's " + colour(Colours.YELLOW, "👔 employee count") + ":", account::setEmployeeCount);
-        return account;
+        return this.crm.addAccount(account);
     }
 
     /**
@@ -399,6 +389,11 @@ public class CLI {
         return colour + string + Colours.RESET;
     }
 
+    /**
+     * Method to print exceptions with a unified style
+     *
+     * @param e the exception to print
+     */
     private void printError(Exception e) {
         printer.println(colour(Colours.RED, "Error") + " " + e.getMessage() + "\n");
     }
@@ -417,50 +412,39 @@ public class CLI {
         this.crm.addLead(new Lead("Coronel Tapioca", "636726671", "tapi@email.com", "Inditex"), salesRep1.getId());
         this.crm.addLead(new Lead("Juan Benigómez", "637538792", "per@email.com", "Keychron"), salesRep2.getId());
 
-        Contact contact1 = new Contact(new Lead("Esteban Coestáocupado", "687493822", "esteban@email.com", "BBVA"));
-        Contact contact2 = new Contact(new Lead("Federico Trillo", "675392876", "fede@email.com", "Construcciones Trillo S.L."));
+        Contact contact1 = this.crm.addContact(new Contact(new Lead("Esteban Coestáocupado", "687493822", "esteban@email.com", "BBVA")));
+        Contact contact2 = this.crm.addContact(new Contact(new Lead("Federico Trillo", "675392876", "fede@email.com", "Construcciones Trillo S.L.")));
 
-        Account account1 = this.crm.addAccount(new Account(Industry.MANUFACTURING, 135, "Barcelona", "Spain"));
-        Account account2 = this.crm.addAccount(new Account(Industry.ECOMMERCE, 56, "Madrid", "Spain"));
+        this.crm.addAccount(new Account(Industry.MANUFACTURING, 135, "Barcelona", "Spain"));
+        this.crm.addAccount(new Account(Industry.ECOMMERCE, 56, "Madrid", "Spain"));
 
-//        contact1.setAccount(account1);
-//        contact2.setAccount(account2);
+        Account account1 = this.crm.getAccount(1);
+        Account account2 = this.crm.getAccount(2);
 
+        contact1.setAccount(account1);
+        contact2.setAccount(account2);
 
-//       error -  not-null property references a null or transient value : com.antoniomasfanclub.model.Contact.account (account)
-        contact1 = this.crm.addContact(contact1);
-        contact2 = this.crm.addContact(contact2);
+        this.crm.addOpportunity(new Opportunity(3, Product.FLATBED, Status.OPEN), salesRep1.getId(), account1.getId());
+        this.crm.addOpportunity(new Opportunity(5, Product.HYBRID, Status.CLOSED_WON), salesRep2.getId(), account2.getId());
 
-        Opportunity opportunity1 = this.crm.addOpportunity(new Opportunity(3, Product.FLATBED, Status.OPEN), salesRep1.getId(), account1.getId());
-        Opportunity opportunity2 = this.crm.addOpportunity(new Opportunity(5, Product.HYBRID, Status.CLOSED_WON), salesRep2.getId(), account2.getId());
+        Opportunity opportunity1 = this.crm.getOpportunity(1);
+        Opportunity opportunity2 = this.crm.getOpportunity(2);
 
         contact1.setOpportunity(opportunity1);
         contact2.setOpportunity(opportunity2);
 
+        contact1 = this.crm.updateContact(contact1);
+        contact2 = this.crm.updateContact(contact2);
+
         opportunity1.setContact(contact1);
         opportunity2.setContact(contact2);
-
-//        salesRep1.addOpportunity(opportunity1);
-//        salesRep2.addOpportunity(opportunity2);
 
         account1.addOpportunity(opportunity1);
         account2.addOpportunity(opportunity2);
 
+        this.crm.updateAccount(account1);
+        this.crm.updateAccount(account2);
 
-        opportunity1.setAccount(account1);
-        opportunity2.setAccount(account2);
-
-        account1.addContact(contact1);
-        account2.addContact(contact2);
-
-        this.crm.updateOpportunity(opportunity1);
-        this.crm.updateOpportunity(opportunity2);
-
-        this.crm.addAccount(account1);
-        this.crm.addAccount(account2);
-
-        this.crm.addContact(contact1);
-        this.crm.addContact(contact2);
     }
 
 

@@ -4,30 +4,31 @@ import com.antoniomasfanclub.model.enums.Colours;
 import com.antoniomasfanclub.model.enums.Industry;
 
 import jakarta.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="account")
 public class Account {
     @Id
     @GeneratedValue
-    private final int id;
-    private int employeeCount;
+    private Integer id;
+    private Integer employeeCount;
     private Industry industry;
     private String city;
     private String country;
     @OneToMany(mappedBy = "account")
-    private final Map<Integer, Contact> contactList;
+    private final List<Contact> contactList;
     @OneToMany(mappedBy = "account")
-    private final Map<Integer, Opportunity> opportunityList;
+    private final List<Opportunity> opportunityList;
     private static int generatedInstances = 0;
 
     //Constructor
     public Account() {
         this.id = autogenerateId();
-        this.contactList = new HashMap<>();
-        this.opportunityList = new HashMap<>();
+        this.contactList = new ArrayList();
+        this.opportunityList = new ArrayList();
     }
 
     public Account(Industry industry, int employeeCount, String city, String country) {
@@ -36,13 +37,13 @@ public class Account {
         this.employeeCount = employeeCount;
         this.city = city;
         this.country = country;
-        this.contactList = new HashMap<>();
-        this.opportunityList = new HashMap<>();
+        this.contactList = new ArrayList();
+        this.opportunityList = new ArrayList();
     }
 
     //Methods
     public void addContact(Integer key, Contact contact) {
-        contactList.put(key, contact);
+        contactList.add(contact);
     }
 
     public void removeContact(Integer key) {
@@ -107,7 +108,7 @@ public class Account {
         this.country = country;
     }
 
-    public Map<Integer, Contact> getContactList() {
+    public List<Contact> getContactList() {
         return contactList;
     }
 
@@ -117,7 +118,7 @@ public class Account {
     }
 
     public void addContact(Contact contact) {
-        this.contactList.put(contact.getId(), contact);
+        this.contactList.add(contact);
     }
 
     public Opportunity getOpportunity(int id) {
@@ -126,10 +127,10 @@ public class Account {
     }
 
     public void addOpportunity(Opportunity opportunity) {
-        this.opportunityList.put(opportunity.getId(), opportunity);
+        this.opportunityList.add( opportunity);
     }
 
-    public Map<Integer, Opportunity> getOpportunityList() {
+    public List<Opportunity> getOpportunityList() {
         return opportunityList;
     }
 
@@ -145,7 +146,7 @@ public class Account {
             string.append("This account has ").append(CLI.colour(Colours.YELLOW, "no contacts"));
         } else {
             string.append(CLI.colour(Colours.YELLOW, " Contacts:\n"));
-            for (Contact contact : contactList.values()) {
+            for (Contact contact : contactList) {
                 string.append("    ").append(contact).append("\n");
             }
         }
@@ -154,7 +155,7 @@ public class Account {
             string.append("This account has ").append(CLI.colour(Colours.YELLOW, "no opportunities"));
         } else {
             string.append(CLI.colour(Colours.YELLOW, " Opportunities:\n"));
-            for (Opportunity opportunity : opportunityList.values()) {
+            for (Opportunity opportunity : opportunityList) {
                 string.append("    ").append(opportunity).append("\n");
             }
         }
