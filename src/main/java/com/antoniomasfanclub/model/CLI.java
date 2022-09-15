@@ -39,7 +39,7 @@ public class CLI {
 //        populateCRM();
 
         SalesRep salesRep1 = this.crm.addSalesRep(new SalesRep("Pepe García"));
-        SalesRep salesRep2 = this.crm.addSalesRep(new SalesRep("María Barranco"));
+        SalesRep salesRep2 = this.crm.addSalesRep(new SalesRep("María Merino"));
         this.crm.addLead(new Lead("Benito Pérez", "636227551", "beni@email.com", "MediaMarkt"), salesRep1.getId());
         this.crm.addLead(new Lead("Coronel Tapioca", "636726671", "tapi@email.com", "Inditex"), salesRep1.getId());
         this.crm.addLead(new Lead("Juan Benigómez", "637538792", "per@email.com", "Keychron"), salesRep2.getId());
@@ -83,11 +83,7 @@ public class CLI {
                         break;
                     case "list":
                         if (userInput[1].equals("leads")) {
-                            try {
-                                printItem(() -> this.crm.getLeads());
-                            } catch (Exception e) {
-                                System.out.println(e.getMessage());
-                            }
+                            printList(this.crm.getLeads());
                             break;
                         }
                         if (userInput[1].equals("opportunities")) {
@@ -412,7 +408,7 @@ public class CLI {
      */
     private void populateCRM() {
         SalesRep salesRep1 = this.crm.addSalesRep(new SalesRep("Pepe García"));
-        SalesRep salesRep2 = this.crm.addSalesRep(new SalesRep("María Barranco"));
+        SalesRep salesRep2 = this.crm.addSalesRep(new SalesRep("María Merino"));
 
         this.crm.addSalesRep(salesRep1);
         this.crm.addSalesRep(salesRep2);
