@@ -16,7 +16,9 @@ public class Opportunity {
     @GeneratedValue
     private Integer id;
     private Integer quantity;
+    @Enumerated(EnumType.STRING)
     private Product product;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne

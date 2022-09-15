@@ -37,4 +37,34 @@ public class AccountServiceImpl implements AccountService {
     public void delete(Integer id) {
         this.accountRepository.delete(this.accountRepository.getAccountById(id));
     }
+
+    @Override
+    public Integer getMeanEmployeeCount() {
+        return this.accountRepository.getMeanEmployeeCount();
+    }
+
+    @Override
+    public Integer getMaxEmployeeCount() {
+        return this.accountRepository.getMaxEmployeeCount();
+    }
+
+    @Override
+    public Integer getMinEmployeeCount() {
+        return this.accountRepository.getMinEmployeeCount();
+    }
+
+    @Override
+    public Integer getMeanOpportunityByAccount() {
+        return this.accountRepository.getMeanOpportunityByAccount();
+    }
+
+    @Override
+    public Integer getMaxOpportunityByAccount() {
+        return this.accountRepository.getMaxOpportunityByAccount();
+    }
+
+    @Override
+    public Integer getMinOpportunityByAccount() {
+        return this.accountRepository.getMinOpportunityByAccount();
+    }
 }

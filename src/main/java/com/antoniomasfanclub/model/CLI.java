@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
@@ -98,6 +99,70 @@ public class CLI {
                     case "closed":
                         closeOpportunity(userInput);
                         break;
+                    case "report":
+                        String key = userInput[userInput.length - 2];
+                        String value = userInput[userInput.length - 1];
+                        switch (userInput[1]) {
+                            case "lead" ->
+                                    printer.println(this.crm.getSalesRep(Integer.valueOf(value)).getLeads().size());
+                            case "opportunity" -> {
+                                switch (key) {
+                                    case "salesrep" ->
+                                            printer.println(this.crm.getSalesRep(Integer.valueOf(value)).getOpportunities().size());
+                                    case "product" ->
+                                            printer.println(this.crm.getOpportunityService().getOpportunitiesByProduct(Product.valueOf(value.toUpperCase())).size());
+                                    case "industry" ->
+                                            printer.println(this.crm.getOpportunityService().getOpportunitiesByAccount_Industry(Industry.valueOf(value.toUpperCase())).size());
+                                    case "country" ->
+                                            printer.println(this.crm.getOpportunityService().getOpportunitiesByAccount_Country(value));
+                                    case "city" ->
+                                            printer.println(this.crm.getOpportunityService().getOpportunitiesByAccount_City(value).size());
+                                }
+                            }
+                            case "open" -> parseStatusReportUserInput(key, value, Status.OPEN);
+                            case "closed" -> {
+                                if (userInput[2].equals("won")) {
+                                    parseStatusReportUserInput(key, value, Status.CLOSED_WON);
+                                }
+                                if (userInput[2].equals("lost")) {
+                                    parseStatusReportUserInput(key, value, Status.CLOSED_LOST);
+                                }
+                            }
+                            case "mean" -> {
+                                if (Objects.equals(key, "employeecount")) {
+                                    printer.println(this.crm.getAccountService().getMeanEmployeeCount());
+                                }
+                                if (Objects.equals(key, "quantity")) {
+                                    printer.println(this.crm.getOpportunityService().getMeanQuantity());
+                                }
+                                if (userInput[2].equals("opps")) {
+                                    printer.println(this.crm.getAccountService().getMeanOpportunityByAccount());
+                                }
+                            }
+                            case "max" -> {
+                                if (Objects.equals(key, "employeecount")) {
+                                    printer.println(this.crm.getAccountService().getMaxEmployeeCount());
+                                }
+                                if (Objects.equals(key, "quantity")) {
+                                    printer.println(this.crm.getOpportunityService().getMaxQuantity());
+                                }
+                                if (userInput[2].equals("opps")) {
+                                    printer.println(this.crm.getAccountService().getMaxOpportunityByAccount());
+                                }
+                            }
+                            case "min" -> {
+                                if (Objects.equals(key, "employeecount")) {
+                                    printer.println(this.crm.getAccountService().getMinEmployeeCount());
+                                }
+                                if (Objects.equals(key, "quantity")) {
+                                    printer.println(this.crm.getOpportunityService().getMinQuantity());
+                                }
+                                if (userInput[2].equals("opps")) {
+                                    printer.println(this.crm.getAccountService().getMinOpportunityByAccount());
+                                }
+                            }
+                        }
+                        break;
                     case "quit":
                         run = false;
                         break;
@@ -105,12 +170,26 @@ public class CLI {
                         printer.println("Sorry, I do not understand '" + colour(Colours.YELLOW, String.join(" ", userInput)) + "'. Could you try again?");
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-//                printer.println("Your command seems to be unrecognisable or incomplete. Please try again.");
-//                printer.println("If you are trying to enter an ID, make sure it's an " + colour(Colours.YELLOW, "integer") + " and that you include it " + colour(Colours.YELLOW, "at the end") + " of your command");
+                printer.println("Your command seems to be unrecognisable or incomplete. Please try again.");
+                printer.println("If you are trying to enter an ID, make sure it's an " + colour(Colours.YELLOW, "integer") + " and that you include it " + colour(Colours.YELLOW, "at the end") + " of your command");
             }
         } while (run);
         printer.println("Quitting the CRM. " + colour(Colours.YELLOW, "Have a great day!"));
+    }
+
+    public void parseStatusReportUserInput(String key, String value, Status status) {
+        switch (key) {
+            case "salesrep" ->
+                    printer.println(this.crm.getOpportunityService().getOpportunitiesBySalesRepAndStatus(this.crm.getSalesRep(Integer.valueOf(value)), status).size());
+            case "product" ->
+                    printer.println(this.crm.getOpportunityService().getOpportunitiesByProductAndStatus(Product.valueOf(value.toUpperCase()), status).size());
+            case "industry" ->
+                    printer.println(this.crm.getOpportunityService().getOpportunitiesByAccount_IndustryAndStatus(Industry.valueOf(value.toUpperCase()), status).size());
+            case "country" ->
+                    printer.println(this.crm.getOpportunityService().getOpportunitiesByAccount_CountryAndStatus(value, status).size());
+            case "city" ->
+                    printer.println(this.crm.getOpportunityService().getOpportunitiesByAccount_CityAndStatus(value, status).size());
+        }
     }
 
 
@@ -410,20 +489,14 @@ public class CLI {
         Contact contact1 = this.crm.addContact(new Contact(new Lead("Esteban Coestáocupado", "687493822", "esteban@email.com", "BBVA")));
         Contact contact2 = this.crm.addContact(new Contact(new Lead("Federico Trillo", "675392876", "fede@email.com", "Construcciones Trillo S.L.")));
 
-        this.crm.addAccount(new Account(Industry.MANUFACTURING, 135, "Barcelona", "Spain"));
-        this.crm.addAccount(new Account(Industry.ECOMMERCE, 56, "Madrid", "Spain"));
-
-        Account account1 = this.crm.getAccount(1);
-        Account account2 = this.crm.getAccount(2);
+        Account account1 = this.crm.addAccount(new Account(Industry.MANUFACTURING, 135, "Barcelona", "Spain"));
+        Account account2 = this.crm.addAccount(new Account(Industry.ECOMMERCE, 56, "Madrid", "Spain"));
 
         contact1.setAccount(account1);
         contact2.setAccount(account2);
 
         Opportunity opportunity1 = this.crm.addOpportunity(new Opportunity(3, Product.FLATBED, Status.OPEN), salesRep1.getId(), account1.getId());
         Opportunity opportunity2 = this.crm.addOpportunity(new Opportunity(5, Product.HYBRID, Status.CLOSED_WON), salesRep2.getId(), account2.getId());
-
-//        Opportunity opportunity1 = this.crm.getOpportunity(1);
-//        Opportunity opportunity2 = this.crm.getOpportunity(2);
 
         contact1.setOpportunity(opportunity1);
         contact2.setOpportunity(opportunity2);

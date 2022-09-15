@@ -15,6 +15,7 @@ public class Account {
     @GeneratedValue
     private Integer id;
     private Integer employeeCount;
+    @Enumerated(EnumType.STRING)
     private Industry industry;
     private String city;
     private String country;

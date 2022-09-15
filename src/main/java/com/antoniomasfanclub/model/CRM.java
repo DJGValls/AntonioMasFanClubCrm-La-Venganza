@@ -12,15 +12,35 @@ import java.util.Map;
 public class CRM {
 
     @Autowired
-    LeadService leadService;
+    private LeadService leadService;
     @Autowired
-    ContactService contactService;
+    private ContactService contactService;
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
     @Autowired
-    SalesRepService salesRepService;
+    private SalesRepService salesRepService;
     @Autowired
-    OpportunityService opportunityService;
+    private OpportunityService opportunityService;
+
+    public LeadService getLeadService() {
+        return leadService;
+    }
+
+    public ContactService getContactService() {
+        return contactService;
+    }
+
+    public AccountService getAccountService() {
+        return accountService;
+    }
+
+    public SalesRepService getSalesRepService() {
+        return salesRepService;
+    }
+
+    public OpportunityService getOpportunityService() {
+        return opportunityService;
+    }
 
     public Lead addLead(Lead lead, Integer salesRepId) {
         if (lead == null)

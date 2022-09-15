@@ -11,4 +11,12 @@ public interface AccountService {
     Account save(Account account);
     Account update(Account account);
     void delete(Integer id);
+
+    Integer getMeanEmployeeCount();
+    Integer getMaxEmployeeCount();
+    Integer getMinEmployeeCount();
+
+    Integer getMeanOpportunityByAccount();
+    Integer getMaxOpportunityByAccount();
+    Integer getMinOpportunityByAccount();
 }
