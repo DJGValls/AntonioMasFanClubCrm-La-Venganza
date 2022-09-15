@@ -42,7 +42,7 @@ public class CRM {
     public void deleteLead(Integer id) {
         Lead lead = leadService.getById(id);
         if (lead == null) throw new IllegalArgumentException("No leads found with ID " + id);
-        lead.getSalesRep().deleteLead(id);
+        //lead.getSalesRep().deleteLead(id);
         leadService.delete(id);
     }
 
@@ -69,7 +69,7 @@ public class CRM {
     public Opportunity addOpportunity(Opportunity opportunity, Integer salesRepId, Integer accountId) {
         if (opportunity == null)
             throw new IllegalArgumentException("No valid opportunity was passed");
-       SalesRep salesRep = this.salesRepService.getById(salesRepId);
+        SalesRep salesRep = this.salesRepService.getById(salesRepId);
         if (salesRep == null)
             throw new IllegalArgumentException("No sales rep could be found in the CRM with ID " + salesRepId);
         Account account = this.accountService.getById(accountId);
@@ -78,8 +78,20 @@ public class CRM {
         //   salesRep.addOpportunity(opportunity);
         opportunity.setAccount(account);
         opportunity.setSalesRep(salesRep);
-        Opportunity savedOpportunity = opportunityService.save(opportunity);
-        return getOpportunity(savedOpportunity.getId());
+        return opportunityService.save(opportunity);
+    }
+
+    public Opportunity addOpportunity(Opportunity opportunity, Integer salesRepId, Integer accountId, Integer contactId) {
+        if (opportunity == null)
+            throw new IllegalArgumentException("No valid opportunity was passed");
+        Contact contact = this.contactService.getById(contactId);
+        if (contact == null)
+            throw new IllegalArgumentException("No contact could be found in the CRM with ID " + contactId);
+        Opportunity bdOpportunity = addOpportunity(opportunity, salesRepId, accountId);
+        contact.setOpportunity(bdOpportunity);
+        contact.setAccount(this.accountService.getById(accountId));
+        updateContact(contact);
+        return bdOpportunity;
     }
 
     public Opportunity updateOpportunity(Opportunity opportunity) {

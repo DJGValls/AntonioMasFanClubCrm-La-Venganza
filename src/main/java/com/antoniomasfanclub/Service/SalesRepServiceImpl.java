@@ -30,12 +30,12 @@ public class SalesRepServiceImpl implements SalesRepService  {
 
     @Override
     public SalesRep getById(Integer id) {
-        return this.salesRepRepository.getReferenceById(id);
+        return this.salesRepRepository.getSalesRepById(id);
     }
 
     @Override
     public void delete(Integer id) {
-        this.salesRepRepository.delete(this.salesRepRepository.getReferenceById(id));
+        this.salesRepRepository.delete(this.salesRepRepository.getSalesRepById(id));
     }
 
 }

@@ -20,7 +20,7 @@ public class LeadServiceImpl implements LeadService {
 
     @Override
     public Lead getById(Integer id) {
-        return this.leadRepository.getReferenceById(id);
+        return this.leadRepository.getLeadById(id);
     }
 
     @Override
@@ -35,6 +35,6 @@ public class LeadServiceImpl implements LeadService {
 
     @Override
     public void delete(Integer id) {
-        leadRepository.delete(leadRepository.getReferenceById(id));
+        leadRepository.delete(leadRepository.getLeadById(id));
     }
 }

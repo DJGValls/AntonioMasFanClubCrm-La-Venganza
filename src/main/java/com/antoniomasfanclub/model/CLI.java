@@ -52,7 +52,7 @@ public class CLI {
                             break;
                         }
                         if (userInput[1].equals("opportunity")) {
-                            printItem(() -> this.crm.getOpportunity(id).getFullDetails());
+                            printItem(() -> this.crm.getOpportunity(id));
                             break;
                         }
                         if (userInput[1].equals("contact")) {
@@ -105,8 +105,9 @@ public class CLI {
                         printer.println("Sorry, I do not understand '" + colour(Colours.YELLOW, String.join(" ", userInput)) + "'. Could you try again?");
                 }
             } catch (Exception e) {
-                printer.println("Your command seems to be unrecognisable or incomplete. Please try again.");
-                printer.println("If you are trying to enter an ID, make sure it's an " + colour(Colours.YELLOW, "integer") + " and that you include it " + colour(Colours.YELLOW, "at the end") + " of your command");
+                e.printStackTrace();
+//                printer.println("Your command seems to be unrecognisable or incomplete. Please try again.");
+//                printer.println("If you are trying to enter an ID, make sure it's an " + colour(Colours.YELLOW, "integer") + " and that you include it " + colour(Colours.YELLOW, "at the end") + " of your command");
             }
         } while (run);
         printer.println("Quitting the CRM. " + colour(Colours.YELLOW, "Have a great day!"));
@@ -157,7 +158,7 @@ public class CLI {
             Contact contact = this.crm.addContact(new Contact(lead));
             SalesRep salesRep = lead.getSalesRep();
 
-            Opportunity opportunity = createOpportunity(contact, salesRep);
+            Opportunity opportunity = createOpportunity();
             printer.println("\nOpportunity created: " + opportunity + "\n");
 
             int nextInt = -1;
@@ -175,9 +176,7 @@ public class CLI {
                     Account account = createAccount();
                     printer.println("\nAccount created: " + account + "\n");
                     this.crm.addAccount(account);
-                    opportunity = this.crm.addOpportunity(opportunity, salesRep.getId(), account.getId());
-                    contact.setOpportunity(opportunity);
-                    this.crm.updateContact(contact);
+                    opportunity = this.crm.addOpportunity(opportunity, salesRep.getId(), account.getId(), contact.getId());
                     validInput = true;
 
                 } else try {
@@ -186,9 +185,7 @@ public class CLI {
                     if (account == null)
                         printer.println(colour(Colours.RED, "Error - ") + "No account was found with ID " + nextInt);
                     else {
-                        opportunity = this.crm.addOpportunity(opportunity, salesRep.getId(), account.getId());
-                        contact.setOpportunity(opportunity);
-                        this.crm.updateContact(contact);
+                        opportunity = this.crm.addOpportunity(opportunity, salesRep.getId(), account.getId(), contact.getId());
                         validInput = true;
                     }
                 } catch (NumberFormatException e) {
@@ -207,12 +204,10 @@ public class CLI {
     /**
      * Creates a new Opportunity instance associated with a Contact instance.
      *
-     * @param contact the Contact instance the new Opportunity should be associated with, based on the original Lead
      * @return the created Opportunity instance
      */
-    private Opportunity createOpportunity(Contact contact, SalesRep salesRep) {
+    private Opportunity createOpportunity() {
         Opportunity opportunity = new Opportunity();
-        opportunity.setContact(contact);
         printer.println("Creating a new " + colour(Colours.GREEN, "opportunity"));
         updateIntegerKey("Please input this opportunity's quantity", opportunity::setQuantity);
         updateEnumKey(Product.BOX, opportunity::setProduct, opportunity::getProduct);
@@ -424,11 +419,11 @@ public class CLI {
         contact1.setAccount(account1);
         contact2.setAccount(account2);
 
-        this.crm.addOpportunity(new Opportunity(3, Product.FLATBED, Status.OPEN), salesRep1.getId(), account1.getId());
-        this.crm.addOpportunity(new Opportunity(5, Product.HYBRID, Status.CLOSED_WON), salesRep2.getId(), account2.getId());
+        Opportunity opportunity1 = this.crm.addOpportunity(new Opportunity(3, Product.FLATBED, Status.OPEN), salesRep1.getId(), account1.getId());
+        Opportunity opportunity2 = this.crm.addOpportunity(new Opportunity(5, Product.HYBRID, Status.CLOSED_WON), salesRep2.getId(), account2.getId());
 
-        Opportunity opportunity1 = this.crm.getOpportunity(1);
-        Opportunity opportunity2 = this.crm.getOpportunity(2);
+//        Opportunity opportunity1 = this.crm.getOpportunity(1);
+//        Opportunity opportunity2 = this.crm.getOpportunity(2);
 
         contact1.setOpportunity(opportunity1);
         contact2.setOpportunity(opportunity2);

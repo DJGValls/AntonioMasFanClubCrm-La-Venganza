@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SalesRepRepository extends JpaRepository<SalesRep, Integer> {
+    SalesRep getSalesRepById(Integer id);
 }

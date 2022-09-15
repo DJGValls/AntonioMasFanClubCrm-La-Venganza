@@ -27,8 +27,8 @@ public class Account {
     //Constructor
     public Account() {
         this.id = autogenerateId();
-        this.contactList = new ArrayList();
-        this.opportunityList = new ArrayList();
+        this.contactList = new ArrayList<>();
+        this.opportunityList = new ArrayList<>();
     }
 
     public Account(Industry industry, int employeeCount, String city, String country) {
