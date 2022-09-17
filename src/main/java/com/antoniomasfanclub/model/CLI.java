@@ -202,6 +202,7 @@ public class CLI {
         printer.println("- To see all details from a specific lead, sales rep, contact, account or opportunity, type '" + colour(Colours.GREEN, Command.LOOKUP.toString()) + "' or the equivalent, followed by the " + colour(Colours.GREEN, "item id"));
         printer.println("- To see all current leads, sales reps, contacts, accounts or opportunities, type '" + colour(Colours.GREEN, Command.LIST_LEADS.toString()) + "' or the equivalent");
         printer.println("- To convert a lead into an opportunity type '" + colour(Colours.GREEN, Command.CONVERT.toString()) + "' followed by the " + colour(Colours.GREEN, "lead id"));
+        printer.println("- To look for specific data counts, type '" + colour(Colours.GREEN, "report") + "' followed by your query (i.e., \"Report opportunity by the product Flatbed\" or \"Report closed-won by city Madrid\")");
         printer.println("- To close an opportunity, type '" + colour(Colours.RED, Command.CLOSED_LOST.toString()) + "' or '" + colour(Colours.GREEN, Command.CLOSED_WON.toString()) + "' followed by the " + colour(Colours.GREEN, "opportunity id"));
         printer.println("- To quit the CRM, type '" + colour(Colours.RED, Command.QUIT.toString()) + "' ");
     }
