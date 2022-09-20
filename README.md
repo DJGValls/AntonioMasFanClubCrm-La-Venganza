@@ -13,7 +13,7 @@ Just run the App class and follow the instructions in the console. The CLI will 
 
 #### Class diagram
 
-![img_1.png](img_1.png)
+![Class Diagram](https://user-images.githubusercontent.com/108625085/191067536-237a21b4-04da-4ad2-9da2-839a8a96952c.png)
 
 
 ### ALL HAIL ANTONIO MAS, IMPERATOR REX
